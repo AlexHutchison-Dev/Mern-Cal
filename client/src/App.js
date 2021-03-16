@@ -29,7 +29,7 @@ function App() {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route path="/login">
+            {/* <Route path="/login">
               <LogIn />
             </Route>
             <Route path="/register">
@@ -37,7 +37,7 @@ function App() {
             </Route>
             <Route path="/cal">
               <Calendar />
-            </Route>
+            </Route> */}
           </Switch>
         </StateProvider>
       </AppContainer>
