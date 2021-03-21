@@ -38,6 +38,8 @@ const TrashIcon = styled.p`
   }
 `;
 
+//TODO need to duplicate with out trash can for 2 more...  that opens aa day view
+
 function Event(props) {
   const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);

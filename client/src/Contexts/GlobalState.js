@@ -7,8 +7,6 @@ export const StateProvider = (props) => {
   const [globalState, setGlobalState] = useState({
     targetDate: "",
     monthOffset: 0,
-    modalVisibility: false,
-    modal: null,
   });
   // Update targetDate state when month offset changed
   useEffect(() => {
@@ -47,26 +45,6 @@ export const StateProvider = (props) => {
         : setGlobalState((prevValue) => {
             return { ...prevValue, monthOffset: globalState.monthOffset + 1 };
           });
-      if (callback) callback();
-    }
-
-    if (target === "modal") {
-      setGlobalState((prevValue) => {
-        return {
-          ...prevValue,
-          modal: modifier,
-        };
-      });
-    }
-
-    // Manage modals to display
-    if (target === "modalVisibility") {
-      setGlobalState((prevValue) => {
-        return {
-          ...prevValue,
-          modalVisibility: !globalState.modalVisibility,
-        };
-      });
       if (callback) callback();
     }
   }
