@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { GlobalState } from "../Contexts/GlobalState";
+import { ModalContext } from "../Contexts/ModalContext";
 import { UserContext } from "../Contexts/UserContext";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -39,14 +39,14 @@ const TrashIcon = styled.p`
 `;
 
 function Event(props) {
-  const [, changeGlobalState] = useContext(GlobalState);
+  const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);
 
   function handleEventClick(event) {
     event.preventDefault();
     changeUserContext.eventStore( {...props.event}, () => {
-      changeGlobalState("modal", "event");
-      changeGlobalState("modalVisibility");
+      changeModalContext.modalType("event");
+      changeModalContext.toggleVisibility();
     });
   }
 

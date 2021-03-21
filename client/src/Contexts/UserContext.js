@@ -14,7 +14,6 @@ export const UserContextProvider = (props) => {
   const [userContext, setUserContext] = useState(defaultState);
 
   const changeUserContext = {
-    //replaces user
     logIn: (modifier, callback) => {
       console.log("changeUserContext login called: " + modifier);
       setUserContext((prevValue) => {
@@ -27,7 +26,6 @@ export const UserContextProvider = (props) => {
       setUserContext(defaultState);
     },
 
-    //replaces event
     eventStore: (modifier, callback) => {
       setUserContext((prevValue) => {
         return { ...prevValue, eventStore: { ...modifier } };
@@ -35,7 +33,6 @@ export const UserContextProvider = (props) => {
       if (callback) callback();
     },
 
-    //replaces resetEvent
     clearEventStore: (callback) => {
       setUserContext((prevValue, callback) => {
         return { ...prevValue, eventStore: null };
@@ -43,7 +40,6 @@ export const UserContextProvider = (props) => {
       if (callback) callback();
     },
 
-    //replaces events
     updateUserEvents: (modifier, callback) => {
       setUserContext((prevValue) => {
         return { ...prevValue, user: { ...prevValue.user, events: [...modifier] } };

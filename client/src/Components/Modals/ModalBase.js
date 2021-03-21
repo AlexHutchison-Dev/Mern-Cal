@@ -2,25 +2,28 @@ import React, { useContext } from "react";
 import ReactDom from "react-dom";
 import CreateEvent from "../CreateEventModalContent";
 import EventModalContent from "../EventModalContent";
-import { GlobalState } from "../../Contexts/GlobalState";
+import { ModalContext } from "../../Contexts/ModalContext";
 
 function ModalBase() {
-  const [globalState] = useContext(GlobalState);
+  
+  const [modalContext] = useContext(ModalContext);
 
-  if (!globalState.modalVisibility) return null;
+  console.log(`from modal base modalContext: ${modalContext}`);
 
-  console.log(globalState.modal);
-  if (globalState.modal === "addevent") {
-    return ReactDom.createPortal(
-      <CreateEvent></CreateEvent>,
-      document.getElementById("portal")
+  const modalContentType = {
+    addevent: <CreateEvent></CreateEvent>,
+    event: <EventModalContent></EventModalContent>,
+    
+  };
+
+  if (modalContext.modalVisibility) {
+  return ReactDom.createPortal(
+    <div>
+    { modalContext.modalType ? modalContentType[modalContext.modalType]: ""}
+    </div>,
+    document.getElementById("portal")
     );
-  }
-  if (globalState.modal === "event") {
-    return ReactDom.createPortal(
-      <EventModalContent></EventModalContent>,
-      document.getElementById("portal")
-    );
+
   }
   else return "";
 }

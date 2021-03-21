@@ -1,8 +1,8 @@
-import React, {useContext } from "react";
+import React, { useContext } from "react";
 
 import styled from "styled-components";
 import axios from "axios";
-import { GlobalState } from "../Contexts/GlobalState";
+import { ModalContext } from "../Contexts/ModalContext";
 import { UserContext } from "../Contexts/UserContext";
 
 import DateString from "./DateString";
@@ -28,12 +28,11 @@ const PageBtn = styled.div`
   margin: 10px;
 `;
 
-const Title  = styled.h1`
-margin-bottom: 30px;
-
+const Title = styled.h1`
+  margin-bottom: 30px;
 `;
 
-const DataField = styled.input `
+const DataField = styled.input`
   margin: 10px;
   width: 30vw;
   border: 1px solid #555;
@@ -41,84 +40,89 @@ const DataField = styled.input `
   padding: 5px;
 `;
 function EventModalContent() {
-
   //TODO add edditing functionality
 
-  const [globalState, changeGlobalState] = useContext(GlobalState);
+  const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);
 
   function handleClose(event) {
     if (event) {
       event.preventDefault();
     }
-    changeUserContext.clearEventStore();
-    changeGlobalState("modalVisibility", false);
+    changeModalContext.restoreDefaultState();
   }
 
   function handleDeleteClick() {
     //TODO Remove to helper DRY violation
     console.log("delete request");
     axios
-      .post("http://localhost:8000/cal/deleteevent", { user: userContext.user.id , eventId:userContext.eventStore._id})
+      .post("http://localhost:8000/cal/deleteevent", {
+        user: userContext.user.id,
+        eventId: userContext.eventStore._id,
+      })
       .then((responce) => {
         if (responce.data.success) {
-          changeUserContext.clearEventStore();
           changeUserContext.updateUserEvents(responce.data.events);
           handleClose();
         }
       })
       .catch((err) => console.log(err));
-
   }
 
   return (
     <div>
       <CreateEventContainer>
-      <Title>Event</Title>
-      <div className="row">
-        <DateString
-          date={
-            userContext.eventStore.date
-          }
-          heading="subheading"
-        ></DateString>
-      </div>
-      <div className="row">
-        <label>Title</label>
-      </div>
-      <div className="row">
-        <DataField placeholder="Title..." defaultValue={userContext.eventStore.title} readonly></DataField>
-      </div>
-      <div className="row">
-        <label>Notes</label>
-      </div>
+        <Title>Event</Title>
+        <div className="row">
+          <DateString
+            date={userContext.eventStore.date}
+            heading="subheading"
+          ></DateString>
+        </div>
+        <div className="row">
+          <label>Title</label>
+        </div>
+        <div className="row">
+          <DataField
+            placeholder="Title..."
+            defaultValue={userContext.eventStore.title}
+            readonly
+          ></DataField>
+        </div>
+        <div className="row">
+          <label>Notes</label>
+        </div>
 
-      <div className="row">
-        <DataField placeholder="Notes..." defaultValue={userContext.eventStore.notes} readonly></DataField>
-      </div>
-      <div className="row">
-        <PageBtn>
-          <button
-            type="submit"
-            className="btn btn-danger"
-            onClick={handleDeleteClick}
-          >
-            Delete
-          </button>
-        </PageBtn>
-        <PageBtn>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleClose}
-          >
-            Close
-          </button>
-        </PageBtn>
-      </div>
-    </CreateEventContainer>
+        <div className="row">
+          <DataField
+            placeholder="Notes..."
+            defaultValue={userContext.eventStore.notes}
+            readonly
+          ></DataField>
+        </div>
+        <div className="row">
+          <PageBtn>
+            <button
+              type="submit"
+              className="btn btn-danger"
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </button>
+          </PageBtn>
+          <PageBtn>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleClose}
+            >
+              Close
+            </button>
+          </PageBtn>
+        </div>
+      </CreateEventContainer>
     </div>
-  )
+  );
 }
 
-export default EventModalContent
+export default EventModalContent;

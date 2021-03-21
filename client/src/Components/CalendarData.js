@@ -35,7 +35,7 @@ const CalendarWrapper = styled.div`
 `;
 
 function CalendarData() {
-  const [globalState, changeGlobalState] = useContext(GlobalState);
+  const [globalState] = useContext(GlobalState);
   const [userContext, changeUserContext] = useContext(UserContext);
   // fetch events from server when user updates
   const userId = userContext.user.id;
@@ -44,7 +44,7 @@ function CalendarData() {
     getEvents(userId, globalState.targetDate.$M, pushEventsToUserState);
     // Should be calling changeUserState.events()
     function pushEventsToUserState(events) {
-      changeUserContext.updateUserEvents( events);
+      changeUserContext.updateUserEvents(events);
     }
   }, [globalState.targetDate]);
 
@@ -90,18 +90,14 @@ function CalendarData() {
     }
 
     return (
-      <GlobalState.Consumer>
-        {(globalContext) => (
-          <CalendarContainer>
-            <DateString />
-            <MonthSelect />
-            <CalendarWrapper>
-              <Weekdays />
-              <Dates days={days} />
-            </CalendarWrapper>
-          </CalendarContainer>
-        )}
-      </GlobalState.Consumer>
+      <CalendarContainer>
+        <DateString />
+        <MonthSelect />
+        <CalendarWrapper>
+          <Weekdays />
+          <Dates days={days} />
+        </CalendarWrapper>
+      </CalendarContainer>
     );
   }
 

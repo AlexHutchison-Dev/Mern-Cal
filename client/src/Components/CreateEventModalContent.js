@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { GlobalState } from "../Contexts/GlobalState";
+import { ModalContext } from "../Contexts/ModalContext";
 import { UserContext } from "../Contexts/UserContext";
 import DateString from "./DateString";
 
@@ -36,7 +36,7 @@ const PageBtn = styled.div`
 
 function CreateEvent() {
 
-  const [, changeGlobalState] = useContext(GlobalState);
+  const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);
 
   const [notes, setNotes] = useState("");
@@ -84,7 +84,7 @@ function CreateEvent() {
       event.preventDefault();
     }
     changeUserContext.clearEventStore();
-    changeGlobalState("modalVisibility", false);
+    changeModalContext.restoreDefaultState();
     setNotes("");
     setTitle("");
     

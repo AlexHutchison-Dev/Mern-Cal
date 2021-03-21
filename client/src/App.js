@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContextProvider } from "./Contexts/UserContext";
+import { ModalContextProvider } from "./Contexts/ModalContext";
 import { StateProvider } from "./Contexts/GlobalState";
 
 import styled from "styled-components";
@@ -20,28 +21,30 @@ const AppContainer = styled.div`
 function App() {
   return (
     <Router>
-      <UserContextProvider>
-        <StateProvider>
-          <AppContainer className="App">
-            <Nav />
-            {/* Router Switch */}
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/login">
-                <LogIn />
-              </Route>
-              <Route path="/register">
-                <Register />
-              </Route>
-              <Route path="/cal">
-                <Calendar />
-              </Route>
-            </Switch>
-          </AppContainer>
-        </StateProvider>
-      </UserContextProvider>
+      <ModalContextProvider>
+        <UserContextProvider>
+          <StateProvider>
+            <AppContainer className="App">
+              <Nav />
+              {/* Router Switch */}
+              <Switch>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/login">
+                  <LogIn />
+                </Route>
+                <Route path="/register">
+                  <Register />
+                </Route>
+                <Route path="/cal">
+                  <Calendar />
+                </Route>
+              </Switch>
+            </AppContainer>
+          </StateProvider>
+        </UserContextProvider>
+      </ModalContextProvider>
     </Router>
   );
 }
