@@ -1,26 +1,35 @@
-import React, { useState, createContext} from "react";
+import React, { useState, createContext } from "react";
 
 export const UserContext = createContext();
 
 export const UserContextProvider = (props) => {
-  const [userState, setUserState] = useState({
+  const defaultState = {
     user: {
       id: "",
       events: [],
     },
     eventStore: null,
-  });
+  };
 
-  const changeUserState = {
-    // replaces user
+  const [userContext, setUserContext] = useState(defaultState);
+
+  const changeUserContext = {
+    //replaces user
     logIn: (modifier, callback) => {
-      setUserState({ ...modifier });
+      console.log("changeUserContext login called: " + modifier);
+      setUserContext((prevValue) => {
+        return { ...prevValue, user: { id: modifier } };
+      });
       if (callback) callback();
     },
 
+    logOut: () => {
+      setUserContext(defaultState);
+    },
+
     //replaces event
-    event: (modifier, callback) => {
-      setUserState((prevValue) => {
+    eventStore: (modifier, callback) => {
+      setUserContext((prevValue) => {
         return { ...prevValue, eventStore: { ...modifier } };
       });
       if (callback) callback();
@@ -28,7 +37,7 @@ export const UserContextProvider = (props) => {
 
     //replaces resetEvent
     clearEventStore: (callback) => {
-      setUserState((prevValue, callback) => {
+      setUserContext((prevValue, callback) => {
         return { ...prevValue, eventStore: null };
       });
       if (callback) callback();
@@ -36,15 +45,15 @@ export const UserContextProvider = (props) => {
 
     //replaces events
     updateUserEvents: (modifier, callback) => {
-      setUserState((prevValue) => {
-        return { ...prevValue, user: { events: modifier } };
+      setUserContext((prevValue) => {
+        return { ...prevValue, user: { ...prevValue.user, events: [...modifier] } };
       });
       if (callback) callback();
     },
   };
 
-  return( 
-    <UserContext.Provider value={[userState, changeUserState]}>
+  return (
+    <UserContext.Provider value={[userContext, changeUserContext]}>
       {props.children}
     </UserContext.Provider>
   );

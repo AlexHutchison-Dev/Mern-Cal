@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import {GlobalState} from "../Contexts/GlobalState";
+import {UserContext} from "../Contexts/UserContext";
 
 const NavContainer = styled.div`
   display: flex;
@@ -31,15 +31,13 @@ const NavBtn = styled.button`
 
 function Nav() {
   const history = useHistory();
-  const [globalState, changeGlobalState] = useContext(GlobalState)
-
+  const [userContext, changeUserContext] = useContext(UserContext)
+  
   function handleButtonBodyClick(event) {
     console.log("handleButtonBodyClick called " + event.target.name);
     if (event.target.name === "/") {
-      // should call changeUserState.logout()
-      changeGlobalState("user", {id: "", events: []});
-      // should call changeUserState.clearEventStore()
-      changeGlobalState("event", {});
+      changeUserContext.logOut();
+      changeUserContext.clearEventStore();
     }
     history.push(event.target.name);
   }
@@ -56,7 +54,7 @@ function Nav() {
           Calendar
         </Logo>
         <div>
-          {!globalState.user.id && <NavBtn
+          {!userContext.user.id && <NavBtn
             type="button"
             name="/register"
             className="btn btn-light"
@@ -65,14 +63,14 @@ function Nav() {
             Sign Up
           </NavBtn>}
 
-          {globalState.user.id === "" ? <NavBtn
+          {userContext.user.id === "" ? <NavBtn
             type="button"
             className="btn btn-light"
             name="/login"
             onClick={handleButtonBodyClick}
           >
             Log In
-          </NavBtn>: <NavBtn
+          </NavBtn> : <NavBtn
             type="button"
             className="btn btn-light"
             name="/"

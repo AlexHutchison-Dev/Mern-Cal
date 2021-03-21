@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { GlobalState } from "../Contexts/GlobalState";
+import { UserContext } from "../Contexts/UserContext";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -38,10 +39,12 @@ const TrashIcon = styled.p`
 `;
 
 function Event(props) {
-  const [globalState, changeGlobalState] = useContext(GlobalState);
+  const [, changeGlobalState] = useContext(GlobalState);
+  const [userContext, changeUserContext] = useContext(UserContext);
 
-  function handleEventClick(e) {
-    changeGlobalState("event", props.event, () => {
+  function handleEventClick(event) {
+    event.preventDefault();
+    changeUserContext.eventStore( {...props.event}, () => {
       changeGlobalState("modal", "event");
       changeGlobalState("modalVisibility");
     });
@@ -51,11 +54,11 @@ function Event(props) {
     
     console.log("delete request");
     axios
-      .post("http://localhost:8000/cal/deleteevent", { user: globalState.user.id , eventId: props.event._id})
+      .post("http://localhost:8000/cal/deleteevent", { user: userContext.user.id , eventId: props.event._id})
       .then((responce) => {
         if (responce.data.success) {
-          changeGlobalState("event", {});
-          changeGlobalState("events", responce.data.events);
+          changeUserContext.clearEventStore();
+          changeUserContext.updateUserEvents( responce.data.events );
         }
       })
       .catch((err) => console.log(err));

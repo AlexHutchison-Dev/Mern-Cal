@@ -22,13 +22,12 @@ const DateH2 = styled.h2`
   display: flex;
   font-size: 3rem;
   align-items: center;
-  @media(max-width: 800px) {
+  @media (max-width: 800px) {
     font-size: 2.2rem;
-
   }
 `;
 function DateString(props) {
-  const [globalState,] = useContext(GlobalState);
+  const [globalState] = useContext(GlobalState);
   const day = "";
 
   const date = props.date ? props.date : globalState.targetDate.$D;
@@ -43,11 +42,11 @@ function DateString(props) {
   setDayString();
   if (props.heading === "subheading") {
     return (
-      <DateStringWrapper className="DateString" >
+      <DateStringWrapper className="DateString">
         <DateH2Subeading>
           {`
-          ${!day ? "Sunday" : day} 
-          ${date}
+          ${""} 
+          ${props.date}
         `}
           <OrdinalSuffix date={date} heading={props.heading} />
           {`${month} 
@@ -56,7 +55,7 @@ function DateString(props) {
       </DateStringWrapper>
     );
   }
-  
+
   return (
     <DateStringWrapper className="DateString">
       <DateH2>

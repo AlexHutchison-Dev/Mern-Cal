@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AddEvent from "./AddEvent";
 import Event from "./Event";
 import { GlobalState } from "../Contexts/GlobalState";
+import { UserContext } from "../Contexts/UserContext";
 
 const Day = styled.div`
   display: flex;
@@ -55,12 +56,16 @@ const EventContainer = styled.div`
 `;
 
 function DateCard(props) {
+  //TODO replace this state with css hover visibility due to lag
   const [hover, setHover] = useState(false);
+
   const [globalState] = useContext(GlobalState);
-  var events = null;
+  const [userContext] = useContext(UserContext);
+  var todaysEvents = null;
 
   useEffect(() => {}, []);
-  const eventDate = {
+
+  const todaysDate = {
     date: props.day,
     month: globalState.targetDate.$M,
     year: globalState.targetDate.$y,
@@ -70,10 +75,10 @@ function DateCard(props) {
     setHover(!hover);
   }
 
-  if (globalState.user.events) {
-    events = globalState.user.events.filter(
+  if (userContext.user.events) {
+    todaysEvents = userContext.user.events.filter(
       (event) =>
-        event.day === eventDate.date &&
+        event.day === todaysDate.date &&
         event.month === globalState.targetDate.$M &&
         event.year === globalState.targetDate.$y
     );
@@ -88,27 +93,28 @@ function DateCard(props) {
       >
         <DateBar>
           <H4>{props.day}</H4>
-          {hover ? <AddEvent eventDate={eventDate} /> : ""}
+          {hover ? <AddEvent eventDate={todaysDate} /> : ""}
         </DateBar>
 
         <EventContainer>
-          {events &&
-            events.map((event, index) => {
-             
+          {todaysEvents &&
+            todaysEvents.map((event, index) => {
               if (index < 1) {
-               return (<Event event={event} key={event._id} />);
+                return <Event event={event} key={event._id} />;
               }
               if (index === 1) {
-                const moreEvents = {title: `+ ${events.length - 1} more...` };
-                return (<Event event={moreEvents} key={event._id} />);
-              }
-              else return "";
-              })}
+                const moreEvents = {
+                  title: `+ ${todaysEvents.length - 1} more...`,
+                };
+                return <Event event={moreEvents} key={event._id} />;
+              } else return "";
+            })}
         </EventContainer>
       </Today>
     );
   }
 
+  //TODO major DRY violation need to sort this
   if (props.index % 2 !== 0) {
     return (
       <EvenDay
@@ -118,22 +124,22 @@ function DateCard(props) {
       >
         <DateBar>
           <H4>{props.day}</H4>
-          {hover ? <AddEvent eventDate={eventDate} /> : ""}
+          {hover ? <AddEvent eventDate={todaysDate} /> : ""}
         </DateBar>
 
         <EventContainer>
-        {events &&
-            events.map((event, index) => {
-              
+          {todaysEvents &&
+            todaysEvents.map((event, index) => {
               if (index < 1) {
-               return (<Event event={event} key={event._id} />);
+                return <Event event={event} key={event._id} />;
               }
               if (index === 1) {
-                const moreEvents = {title: `+ ${events.length - 1} more...` };
-                return (<Event event={moreEvents} key={event._id} />);
-              }
-              else return "";
-              })}
+                const moreEvents = {
+                  title: `+ ${todaysEvents.length - 1} more...`,
+                };
+                return <Event event={moreEvents} key={event._id} />;
+              } else return "";
+            })}
         </EventContainer>
       </EvenDay>
     );
@@ -143,22 +149,22 @@ function DateCard(props) {
     <Day onMouseEnter={toggleHover} onMouseLeave={toggleHover} key={props.day}>
       <DateBar>
         <H4>{props.day}</H4>
-        {hover ? <AddEvent eventDate={eventDate} /> : ""}
+        {hover ? <AddEvent eventDate={todaysDate} /> : ""}
       </DateBar>
 
       <EventContainer>
-      {events &&
-            events.map((event, index) => {
-              
-              if (index < 1) {
-               return (<Event event={event} key={event._id} />);
-              }
-              if (index === 1) {
-                const moreEvents = {title: `+ ${events.length - 1} more...` };
-                return (<Event event={moreEvents} key={event._id} />);
-              }
-              else return "";
-              })}
+        {todaysEvents &&
+          todaysEvents.map((event, index) => {
+            if (index < 1) {
+              return <Event event={event} key={event._id} />;
+            }
+            if (index === 1) {
+              const moreEvents = {
+                title: `+ ${todaysEvents.length - 1} more...`,
+              };
+              return <Event event={moreEvents} key={event._id} />;
+            } else return "";
+          })}
       </EventContainer>
     </Day>
   );

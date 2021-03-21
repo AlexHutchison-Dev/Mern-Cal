@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { GlobalState } from "../Contexts/GlobalState";
+import { UserContext } from "../Contexts/UserContext";
 import styled from "styled-components";
 import LogInButton from "./form-inputs/LogInButton";
 import axios from "axios";
@@ -25,7 +25,7 @@ function LogIn() {
     username: "",
     password: "",
   });
-  const [, changeGlobalState] = useContext(GlobalState);
+  const [, changeUserContext] = useContext(UserContext);
   const [redirect, setRedirect] = useState({ redirect: null });
   const [error, setError] = useState(null);
 
@@ -49,8 +49,7 @@ function LogIn() {
         .post("http://localhost:8000/user/login", credentials)
         .then((responce) => {
           console.log(responce.data);
-          // should be calling changeUserState.logIn(user)
-          changeGlobalState("user", { id: responce.data.id }, () => {
+          changeUserContext.logIn(responce.data.id , () => {
             setRedirect({ redirect: "/cal" });
           });
         })

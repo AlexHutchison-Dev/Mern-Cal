@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { GlobalState } from "../Contexts/GlobalState";
+import { UserContext } from "../Contexts/UserContext";
 import styled from "styled-components";
 import axios from "axios";
 import RegisterButton from "./form-inputs/RegisterButton";
@@ -24,7 +24,7 @@ function Register() {
     username: "",
     password: "",
   });
-  const [, changeGlobalState] = useContext(GlobalState);
+  const [, changeUserContext] = useContext(UserContext);
   const [redirect, setRedirect] = useState({ redirect: null });
   const [error, setError] = useState(null);
 
@@ -48,7 +48,7 @@ function Register() {
       .then((responce) => {
         console.log(responce.data);
         if (responce.data.success) {
-          changeGlobalState("user", { id: responce.data.id });
+          changeUserContext.logIn({id: responce.data.id });
           setRedirect({ redirect: "/cal" });
         }
         setError(responce.data);
@@ -88,7 +88,6 @@ function Register() {
           <form>
             <Input
               name="username"
-              key={1234}
               type="text"
               onChange={handleChange}
               value={credentials.email}
@@ -100,7 +99,6 @@ function Register() {
             <Input
               name="password"
               type="password"
-              key={4321}
               onChange={handleChange}
               value={credentials.password}
               className="Password form-control"

@@ -1,17 +1,17 @@
+// import React from 'react';
 // import axios from "axios";
-// import { GlobalState } from "../Contexts/GlobalState";
+// import { UserContext } from "../Contexts/UserContext";
 
-
-// const [globalState, changeGlobalState] = useContext(GlobalState);
+// const [userContext, changeUserContext] = React.useContext(UserContext);
 
 // export function postAddEvent(newEvent, callback) {
 //   axios
 //     .post("http://localhost:8000/cal/addevent", { ...newEvent })
 //     .then((responce) => {
 //       if (responce.data.success) {
-//         changeGlobalState("resetEvent");
-//         changeGlobalState("events", responce.data.events);
-//         calback();
+//         changeUserContext.clearEventStore();
+//         changeUserContext.updateUserEvents(responce.data.events);
+        
 //       }
 //       console.log(responce);
 //     })

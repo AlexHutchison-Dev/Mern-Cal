@@ -3,6 +3,7 @@ import React, {useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { GlobalState } from "../Contexts/GlobalState";
+import { UserContext } from "../Contexts/UserContext";
 
 import DateString from "./DateString";
 
@@ -41,25 +42,28 @@ const DataField = styled.input `
 `;
 function EventModalContent() {
 
+  //TODO add edditing functionality
+
   const [globalState, changeGlobalState] = useContext(GlobalState);
+  const [userContext, changeUserContext] = useContext(UserContext);
 
   function handleClose(event) {
     if (event) {
       event.preventDefault();
     }
-    changeGlobalState("resetEvent");
+    changeUserContext.clearEventStore();
     changeGlobalState("modalVisibility", false);
   }
 
   function handleDeleteClick() {
-    
+    //TODO Remove to helper DRY violation
     console.log("delete request");
     axios
-      .post("http://localhost:8000/cal/deleteevent", { user: globalState.user.id , eventId:globalState.event._id})
+      .post("http://localhost:8000/cal/deleteevent", { user: userContext.user.id , eventId:userContext.eventStore._id})
       .then((responce) => {
         if (responce.data.success) {
-          changeGlobalState("event", {});
-          changeGlobalState("events", responce.data.events);
+          changeUserContext.clearEventStore();
+          changeUserContext.updateUserEvents(responce.data.events);
           handleClose();
         }
       })
@@ -74,7 +78,7 @@ function EventModalContent() {
       <div className="row">
         <DateString
           date={
-            globalState.event.date
+            userContext.eventStore.date
           }
           heading="subheading"
         ></DateString>
@@ -83,14 +87,14 @@ function EventModalContent() {
         <label>Title</label>
       </div>
       <div className="row">
-        <DataField placeholder="Title..." defaultValue={globalState.event.title} readonly></DataField>
+        <DataField placeholder="Title..." defaultValue={userContext.eventStore.title} readonly></DataField>
       </div>
       <div className="row">
         <label>Notes</label>
       </div>
 
       <div className="row">
-        <DataField placeholder="Notes..." defaultValue={globalState.event.notes} readonly></DataField>
+        <DataField placeholder="Notes..." defaultValue={userContext.eventStore.notes} readonly></DataField>
       </div>
       <div className="row">
         <PageBtn>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { monthStartDay, getDaysInMonth } from "../Helpers/dateHelpers";
 import { Redirect } from "react-router-dom";
 import { GlobalState } from "../Contexts/GlobalState";
+import { UserContext } from "../Contexts/UserContext";
 import axios from "axios";
 import styled from "styled-components";
 import DateString from "./DateString";
@@ -35,27 +36,24 @@ const CalendarWrapper = styled.div`
 
 function CalendarData() {
   const [globalState, changeGlobalState] = useContext(GlobalState);
+  const [userContext, changeUserContext] = useContext(UserContext);
   // fetch events from server when user updates
-  const userId = globalState.user.id;
+  const userId = userContext.user.id;
   useEffect(() => {
     //TODO Remove to hook or helper function violates DRY
-    getEvents(
-      userId,
-      globalState.targetDate.$M,
-      pushEventsToUserState
-    );
+    getEvents(userId, globalState.targetDate.$M, pushEventsToUserState);
     // Should be calling changeUserState.events()
     function pushEventsToUserState(events) {
-      changeGlobalState("user", { events: [...events] });
+      changeUserContext.updateUserEvents( events);
     }
   }, [globalState.targetDate]);
 
   useEffect(() => {
     console.log("use effect called due to change to events array");
-  }, [globalState.user.events]);
+  }, [userContext.user.events]);
 
-  // Id no user redirect to login
-  if (!globalState.user.id) {
+  // No user id redirect to login
+  if (!userContext.user.id) {
     return <Redirect to={"/login"} />;
   }
 
@@ -92,15 +90,18 @@ function CalendarData() {
     }
 
     return (
-      <GlobalState.Consumer>{(globalContext) => (
-        <CalendarContainer>
-        <MonthSelect />
-        <CalendarWrapper>
-          <Weekdays />
-          <Dates days={days} />
-        </CalendarWrapper>
-      </CalendarContainer>
-      )}</GlobalState.Consumer>
+      <GlobalState.Consumer>
+        {(globalContext) => (
+          <CalendarContainer>
+            <DateString />
+            <MonthSelect />
+            <CalendarWrapper>
+              <Weekdays />
+              <Dates days={days} />
+            </CalendarWrapper>
+          </CalendarContainer>
+        )}
+      </GlobalState.Consumer>
     );
   }
 

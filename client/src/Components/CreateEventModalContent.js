@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-
+import axios from "axios";
 import styled from "styled-components";
 import { GlobalState } from "../Contexts/GlobalState";
+import { UserContext } from "../Contexts/UserContext";
 import DateString from "./DateString";
-import {postAddEvent} from "../Helpers/eventHelpers";
 
 const CreateEventContainer = styled.div`
   display: flex;
@@ -36,7 +36,8 @@ const PageBtn = styled.div`
 
 function CreateEvent() {
 
-  const [globalState, changeGlobalState] = useContext(GlobalState);
+  const [, changeGlobalState] = useContext(GlobalState);
+  const [userContext, changeUserContext] = useContext(UserContext);
 
   const [notes, setNotes] = useState("");
   const [title, setTitle] = useState("");
@@ -51,16 +52,29 @@ function CreateEvent() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(JSON.stringify(globalState.event));
+    console.log(JSON.stringify(userContext.eventStore));
 
     const newEvent = {
-      user: globalState.user.id,
-      ...globalState.event,
+      user: userContext.user.id,
+      ...userContext.eventStore,
       title,
       notes,
     };
     console.log(`userEvent for submittal ${JSON.stringify(newEvent)}`);
-    postAddEvent(newEvent, handleClose);
+    
+    //TODO major DRY violation
+    axios
+    .post("http://localhost:8000/cal/addevent", { ...newEvent })
+    .then((responce) => {
+      if (responce.data.success) {
+        
+        changeUserContext.updateUserEvents(responce.data.events);
+        handleClose();
+        
+      }
+      console.log(responce);
+    })
+    .catch((err) => console.log(err));
   }
 
   
@@ -69,7 +83,7 @@ function CreateEvent() {
     if (event) {
       event.preventDefault();
     }
-    changeGlobalState("resetEvent");
+    changeUserContext.clearEventStore();
     changeGlobalState("modalVisibility", false);
     setNotes("");
     setTitle("");
@@ -85,8 +99,8 @@ function CreateEvent() {
       <div className="row">
         <DateString
           date={
-            globalState.event.date
-              ? globalState.event.date
+            userContext.eventStore.date
+              ? userContext.eventStore.date
               : "" 
           }
           heading="subheading"

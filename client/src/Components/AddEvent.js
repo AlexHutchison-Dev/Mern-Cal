@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { GlobalState } from "../Contexts/GlobalState";
+import { UserContext } from "../Contexts/UserContext";
 
 
 const AddEventBtn = styled.button`
@@ -14,9 +15,10 @@ const AddEventBtn = styled.button`
 
 function AddEvent(props) {
   const [, changeGlobalState] = useContext(GlobalState);
+  const [, changeUserContext] = useContext(UserContext);
 
   function handleClick() {
-    changeGlobalState("event", {...props.eventDate}, () => {
+    changeUserContext.eventStore({...props.eventDate}, () => {
       changeGlobalState("modal", "addevent");
       changeGlobalState("modalVisibility");
     });
