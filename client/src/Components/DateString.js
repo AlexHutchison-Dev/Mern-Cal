@@ -38,15 +38,15 @@ function DateString(props) {
     if (props.day === null) return "";
     return getDay(globalState.targetDate.$W);
   }
-
+  //TODO This date string is a mess.
   setDayString();
   if (props.heading === "subheading") {
     return (
       <DateStringWrapper className="DateString">
         <DateH2Subeading>
           {`
-          ${""} 
-          ${props.date}
+          ${!day ? "Sunday" : day} 
+          ${day}
         `}
           <OrdinalSuffix date={date} heading={props.heading} />
           {`${month} 

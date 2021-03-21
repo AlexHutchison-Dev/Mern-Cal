@@ -9,14 +9,10 @@ export const StateProvider = (props) => {
     monthOffset: 0,
     modalVisibility: false,
     modal: null,
-    event: {},
-    user: { id: "", events: [] },
   });
   // Update targetDate state when month offset changed
   useEffect(() => {
-    setGlobalState((prevValue) => {
-      return { ...prevValue, events: [] };
-    });
+    
     if (globalState.monthOffset === 0) {
       setGlobalState((prevValue) => {
         return { ...prevValue, targetDate: dayjs() };
@@ -54,29 +50,6 @@ export const StateProvider = (props) => {
       if (callback) callback();
     }
 
-    // manage changes to current event
-    if (target === "event") {
-      setGlobalState((prevValue) => {
-        return { ...prevValue, event: { ...modifier } };
-      });
-      if (callback) callback();
-    }
-    if (target === "resetEvent") {
-      setGlobalState((prevValue) => {
-        return { ...prevValue, event: {} };
-      });
-    }
-
-    if (target === "events") {
-      setGlobalState((prevValue) => {
-        return {
-          ...prevValue,
-          user: { id: prevValue.user.id, events: modifier },
-        };
-      });
-      if (callback) callback();
-    }
-
     if (target === "modal") {
       setGlobalState((prevValue) => {
         return {
@@ -94,26 +67,6 @@ export const StateProvider = (props) => {
           modalVisibility: !globalState.modalVisibility,
         };
       });
-      if (callback) callback();
-    }
-
-    // if (target === "eventVisibility") {
-    //   console.log(globalState.eventVisibility);
-    //   setGlobalState((prevValue) => {
-    //     return {
-    //       ...prevValue,
-    //       eventVisibility: !globalState.eventVisibility,
-    //     };
-    //   });
-    //   if (callback) callback();
-    // }
-
-    if (target === "user") {
-      console.log(modifier);
-      setGlobalState((prevValue) => {
-        return { ...prevValue, user: { ...prevValue.user, ...modifier } };
-      });
-
       if (callback) callback();
     }
   }
