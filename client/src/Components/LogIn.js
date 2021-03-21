@@ -44,10 +44,12 @@ function LogIn() {
     event.preventDefault();
     console.log(`submitting`);
     if (validateCredentials(credentials)) {
+    //TODO Remove to hook or helper function violates DRY
       axios
         .post("http://localhost:8000/user/login", credentials)
         .then((responce) => {
           console.log(responce.data);
+          // should be calling changeUserState.logIn(user)
           changeGlobalState("user", { id: responce.data.id }, () => {
             setRedirect({ redirect: "/cal" });
           });

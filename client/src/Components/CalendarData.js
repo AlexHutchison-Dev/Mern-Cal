@@ -38,11 +38,13 @@ function CalendarData() {
   // fetch events from server when user updates
   const userId = globalState.user.id;
   useEffect(() => {
+    //TODO Remove to hook or helper function violates DRY
     getEvents(
       userId,
       globalState.targetDate.$M,
       pushEventsToUserState
     );
+    // Should be calling changeUserState.events()
     function pushEventsToUserState(events) {
       changeGlobalState("user", { events: [...events] });
     }
@@ -90,14 +92,15 @@ function CalendarData() {
     }
 
     return (
-      <CalendarContainer>
-        <DateString />
+      <GlobalState.Consumer>{(globalContext) => (
+        <CalendarContainer>
         <MonthSelect />
         <CalendarWrapper>
           <Weekdays />
           <Dates days={days} />
         </CalendarWrapper>
       </CalendarContainer>
+      )}</GlobalState.Consumer>
     );
   }
 

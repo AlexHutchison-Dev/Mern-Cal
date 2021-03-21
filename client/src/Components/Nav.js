@@ -36,7 +36,9 @@ function Nav() {
   function handleButtonBodyClick(event) {
     console.log("handleButtonBodyClick called " + event.target.name);
     if (event.target.name === "/") {
+      // should call changeUserState.logout()
       changeGlobalState("user", {id: "", events: []});
+      // should call changeUserState.clearEventStore()
       changeGlobalState("event", {});
     }
     history.push(event.target.name);

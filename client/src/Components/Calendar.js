@@ -5,17 +5,16 @@ import styled from "styled-components";
 import CalendarData from "./CalendarData";
 
 const Container = styled.div`
-height: calc(100vh - 82px);
-width: 100vw;
-margin: 0;
-
+  height: calc(100vh - 82px);
+  width: 100vw;
+  margin: 0;
 `;
 
 function Calendar() {
   return (
     <Container className="container">
-      <CalendarData />
-      <ModalBase />
+        <CalendarData />
+        <ModalBase />
     </Container>
   );
 }

@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
 
 import styled from "styled-components";
-import axios from "axios";
 import { GlobalState } from "../Contexts/GlobalState";
-
 import DateString from "./DateString";
+import {postAddEvent} from "../Helpers/eventHelpers";
 
 const CreateEventContainer = styled.div`
   display: flex;
@@ -61,22 +60,10 @@ function CreateEvent() {
       notes,
     };
     console.log(`userEvent for submittal ${JSON.stringify(newEvent)}`);
-    postAddEvent(newEvent);
+    postAddEvent(newEvent, handleClose);
   }
 
-  function postAddEvent(newEvent) {
-    axios
-      .post("http://localhost:8000/cal/addevent", { ...newEvent })
-      .then((responce) => {
-        if (responce.data.success) {
-          changeGlobalState("resetEvent");
-          changeGlobalState("events", responce.data.events);
-          handleClose();
-        }
-        console.log(responce);
-      })
-      .catch((err) => console.log(err));
-  }
+  
 
   function handleClose(event) {
     if (event) {
