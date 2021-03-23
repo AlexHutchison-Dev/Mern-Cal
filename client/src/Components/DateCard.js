@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import AddEvent from "./AddEvent";
 import Event from "./Event";
-import { GlobalState } from "../Contexts/GlobalState";
+import { DateContext } from "../Contexts/DateContext";
 import { UserContext } from "../Contexts/UserContext";
 
 const Day = styled.div`
@@ -59,7 +59,7 @@ function DateCard(props) {
   //TODO replace this state with css hover visibility due to lag
   const [hover, setHover] = useState(false);
 
-  const [globalState] = useContext(GlobalState);
+  const [globalState] = useContext(DateContext);
   const [userContext] = useContext(UserContext);
   var todaysEvents = null;
 

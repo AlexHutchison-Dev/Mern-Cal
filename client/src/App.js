@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContextProvider } from "./Contexts/UserContext";
 import { ModalContextProvider } from "./Contexts/ModalContext";
-import { StateProvider } from "./Contexts/GlobalState";
+import { DateProvider } from "./Contexts/DateContext";
 
 import styled from "styled-components";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -23,7 +23,7 @@ function App() {
     <Router>
       <ModalContextProvider>
         <UserContextProvider>
-          <StateProvider>
+          <DateProvider>
             <AppContainer className="App">
               <Nav />
               {/* Router Switch */}
@@ -42,7 +42,7 @@ function App() {
                 </Route>
               </Switch>
             </AppContainer>
-          </StateProvider>
+          </DateProvider>
         </UserContextProvider>
       </ModalContextProvider>
     </Router>

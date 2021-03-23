@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
+import { authenticateUser, fetchEvents } from "../Helpers/httpHelper.js";
 import styled from "styled-components";
 import LogInButton from "./form-inputs/LogInButton";
 import axios from "axios";
@@ -43,21 +44,27 @@ function LogIn() {
   function handleSubmit(event) {
     event.preventDefault();
     console.log(`submitting`);
-    if (validateCredentials(credentials)) {
-    //TODO Remove to hook or helper function violates DRY
-      axios
-        .post("http://localhost:8000/user/login", credentials)
-        .then((responce) => {
-          console.log(responce.data);
-          changeUserContext.logIn(responce.data.id , () => {
-            setRedirect({ redirect: "/cal" });
-          });
-        })
-        .catch((err) => {
-          setError("Invalid Username or password");
-          console.log(err);
+    if (!validateCredentials(credentials))
+      return setError(`Invalid Username or Password`);
+    
+    var id = null;
+    authenticateUser(credentials, (id) => {
+      if (id) {
+        changeUserContext.logIn(id);
+        fetchEvents(id,(events) => {
+          changeUserContext.updateUserEvents(events, () => {
+          setRedirect({ redirect: "/cal" });
+          })
         });
-    } else return;
+      }
+      else setError(`Invalid username or password.`);
+    })
+    // changeUserContext.logIn(authenticateUser(credentials, setError), (id) => {
+    //   fetchEvents(id, (events) => {
+    //     changeUserContext.updateUserEvents(events, () => {
+    //     })
+    //   })
+    // });
   }
 
   function validateCredentials(credentials) {

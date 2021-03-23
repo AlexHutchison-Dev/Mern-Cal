@@ -19,7 +19,7 @@ function AddEvent(props) {
 
   function handleClick() {
     changeUserContext.eventStore({...props.eventDate}, () => {
-      changeModalContext.eventStore.modalType("addevent");
+      changeModalContext.modalType("addevent");
       changeModalContext.toggleVisibility();
     });
   }

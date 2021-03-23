@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import OrdinalSuffix from "./OrdinalSuffix";
 import styled from "styled-components";
-import { GlobalState } from "../Contexts/GlobalState";
+import { DateContext } from "../Contexts/DateContext";
 import { getDay, getMonth } from "../Helpers/dateHelpers";
 
 const DateStringWrapper = styled.div`
@@ -27,7 +27,7 @@ const DateH2 = styled.h2`
   }
 `;
 function DateString(props) {
-  const [globalState] = useContext(GlobalState);
+  const [globalState] = useContext(DateContext);
   const day = "";
 
   const date = props.date ? props.date : globalState.targetDate.$D;

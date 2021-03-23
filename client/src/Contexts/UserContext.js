@@ -19,7 +19,7 @@ export const UserContextProvider = (props) => {
       setUserContext((prevValue) => {
         return { ...prevValue, user: { id: modifier } };
       });
-      if (callback) callback();
+      if (callback) callback(modifier);
     },
 
     logOut: () => {

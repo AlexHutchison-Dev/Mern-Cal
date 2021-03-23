@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { GlobalState } from "../Contexts/GlobalState";
+import { DateContext } from "../Contexts/DateContext";
 import { getMonth } from "../Helpers/dateHelpers";
 
 const MonthSelectContainer = styled.div`
@@ -21,14 +21,14 @@ const CurrentMonth = styled.h2`
 `;
 
 function MonthSelect() {
-  const [globalState, changeGlobalState] = useContext(GlobalState);
+  const [globalState, changeMonthOffset] = useContext(DateContext);
 
   function handlePrevious() {
-    changeGlobalState("monthOffset", "subtract");
+    changeMonthOffset("subtract");
   }
 
   function handleNext() {
-    changeGlobalState("monthOffset", "add");
+    changeMonthOffset("add");
   }
   return (
     <MonthSelectContainer>

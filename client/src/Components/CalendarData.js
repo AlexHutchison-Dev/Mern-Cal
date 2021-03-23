@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { monthStartDay, getDaysInMonth } from "../Helpers/dateHelpers";
 import { Redirect } from "react-router-dom";
-import { GlobalState } from "../Contexts/GlobalState";
+import { DateContext } from "../Contexts/DateContext";
 import { UserContext } from "../Contexts/UserContext";
 import axios from "axios";
 import styled from "styled-components";
@@ -35,50 +35,49 @@ const CalendarWrapper = styled.div`
 `;
 
 function CalendarData() {
-  const [globalState] = useContext(GlobalState);
+  const [dateContext] = useContext(DateContext);
   const [userContext, changeUserContext] = useContext(UserContext);
   // fetch events from server when user updates
   const userId = userContext.user.id;
-  useEffect(() => {
-    //TODO Remove to hook or helper function violates DRY
-    getEvents(userId, globalState.targetDate.$M, pushEventsToUserState);
-    // Should be calling changeUserState.events()
+
+    // getEvents(userId, dateContext.targetDate.$M, pushEventsToUserState);
+    
     function pushEventsToUserState(events) {
       changeUserContext.updateUserEvents(events);
     }
-  }, [globalState.targetDate]);
+  
 
   useEffect(() => {
     console.log("use effect called due to change to events array");
-  }, [userContext.user.events]);
+  }, []);
 
   // No user id redirect to login
   if (!userContext.user.id) {
     return <Redirect to={"/login"} />;
   }
 
-  function getEvents(id, month, callback) {
-    console.log(month);
-    if (!id) return console.error("no user id provided to retrieve events");
-    axios
-      .post("http://localhost:8000/cal", {
-        id: id,
-      })
-      .then((responce) => {
-        const events = responce.data.events;
-        callback(events);
-      })
+  // function getEvents(id, month, callback) {
+  //   console.log(month);
+  //   if (!id) return console.error("no user id provided to retrieve events");
+  //   axios
+  //     .post("http://localhost:8000/cal", {
+  //       id: id,
+  //     })
+  //     .then((responce) => {
+  //       const events = responce.data.events;
+  //       callback(events);
+  //     })
 
-      .catch((err) => console.log(err));
-  }
+  //     .catch((err) => console.log(err));
+  // }
 
   function makeDaysArray() {
-    const daysInMonth = getDaysInMonth(globalState.targetDate);
+    const daysInMonth = getDaysInMonth(dateContext.targetDate);
 
     const days = [];
 
-    if (monthStartDay(globalState.targetDate) !== 0) {
-      for (let i = 0; i < monthStartDay(globalState.targetDate); i++) {
+    if (monthStartDay(dateContext.targetDate) !== 0) {
+      for (let i = 0; i < monthStartDay(dateContext.targetDate); i++) {
         days.push(null);
       }
     }
@@ -101,7 +100,7 @@ function CalendarData() {
     );
   }
 
-  return <div>{makeDaysArray(globalState.targetDate)}</div>;
+  return <div>{makeDaysArray(dateContext.targetDate)}</div>;
 }
 
 export default CalendarData;

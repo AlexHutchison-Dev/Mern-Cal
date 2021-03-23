@@ -54,3 +54,20 @@ export function getDaysInMonth(targetDate) {
     `${targetDate.$y}-${targetDate.$M + 1}-${targetDate.$D}`
   ).daysInMonth();
 }
+
+export function changeTargetDateMonth(monthOffset) {
+  var targetDate = null;
+
+  if (monthOffset === 0) {
+    targetDate = dayjs();
+  }
+
+  monthOffset < 0
+    ? (targetDate = dayjs().subtract(
+        Math.abs(monthOffset),
+        "month"
+      ))
+    : (targetDate = dayjs().add(monthOffset, "month"));
+
+    return targetDate;
+}

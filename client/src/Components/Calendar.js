@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import ModalBase from "./Modals/ModalBase";
+import {DateContext} from '../Contexts/DateContext'
 import styled from "styled-components";
 
 import CalendarData from "./CalendarData";
@@ -11,6 +12,12 @@ const Container = styled.div`
 `;
 //TODO location for ModalContext.Provider
 function Calendar() {
+
+  const [dateContext,] = useContext(DateContext);
+
+  useEffect(() => {
+  }, [dateContext.targetDate]);
+
   return (
     <Container className="container">
         <CalendarData />
