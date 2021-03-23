@@ -77,9 +77,10 @@ function CreateEvent() {
     if (event) {
       event.preventDefault();
     }
-    changeModalContext.restoreDefaultState();
     setNotes("");
     setTitle("");
+    changeModalContext.restoreDefaultState();
+
   }
 
   return (
