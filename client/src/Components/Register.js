@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
 import styled from "styled-components";
-import axios from "axios";
+import { registerUser, fetchEvents } from "../Helpers/httpHelper";
 import RegisterButton from "./form-inputs/RegisterButton";
 
 const Form = styled.div`
@@ -43,30 +43,29 @@ function Register() {
     event.preventDefault();
     console.log(`submitting`);
     if (validateCredentials(credentials)) {
-      axios
-      .post("http://localhost:8000/user/register", credentials)
-      .then((responce) => {
-        console.log(responce.data);
-        if (responce.data.success) {
-          changeUserContext.logIn({id: responce.data.id });
-          setRedirect({ redirect: "/cal" });
-        }
-        setError(responce.data);
-        return;
-      })
-      .catch((err) => console.log(err));}
-      else {
-        return;
-      }
+      registerUser(credentials, (responce) => {
+        console.log(responce);
+        if (responce.id) {
+          changeUserContext.logIn(responce.id);
+          fetchEvents(responce.id, (events) => {
+            changeUserContext.updateUserEvents(events, () => {
+              setRedirect({ redirect: "/cal" });
+            });
+          });
+        } else setError(responce);
+      });
+    } else {
+      return;
+    }
   }
 
-  function validateCredentials(credentials) { 
+  function validateCredentials(credentials) {
     if (credentials.username === "") {
-      setError("Please Enter a username.")
+      setError("Please Enter a username.");
       return false;
     }
     if (credentials.password === "") {
-      setError("Please Enter a password.")
+      setError("Please Enter a password.");
       return false;
     }
     return true;

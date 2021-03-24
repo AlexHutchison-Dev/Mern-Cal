@@ -3,7 +3,6 @@ import { monthStartDay, getDaysInMonth } from "../Helpers/dateHelpers";
 import { Redirect } from "react-router-dom";
 import { DateContext } from "../Contexts/DateContext";
 import { UserContext } from "../Contexts/UserContext";
-import axios from "axios";
 import styled from "styled-components";
 import DateString from "./DateString";
 import MonthSelect from "./MonthSelect";
@@ -36,15 +35,7 @@ const CalendarWrapper = styled.div`
 
 function CalendarData() {
   const [dateContext] = useContext(DateContext);
-  const [userContext, changeUserContext] = useContext(UserContext);
-  // fetch events from server when user updates
-  const userId = userContext.user.id;
-
-    // getEvents(userId, dateContext.targetDate.$M, pushEventsToUserState);
-    
-    function pushEventsToUserState(events) {
-      changeUserContext.updateUserEvents(events);
-    }
+  const [userContext, ] = useContext(UserContext);
   
 
   useEffect(() => {
@@ -55,21 +46,6 @@ function CalendarData() {
   if (!userContext.user.id) {
     return <Redirect to={"/login"} />;
   }
-
-  // function getEvents(id, month, callback) {
-  //   console.log(month);
-  //   if (!id) return console.error("no user id provided to retrieve events");
-  //   axios
-  //     .post("http://localhost:8000/cal", {
-  //       id: id,
-  //     })
-  //     .then((responce) => {
-  //       const events = responce.data.events;
-  //       callback(events);
-  //     })
-
-  //     .catch((err) => console.log(err));
-  // }
 
   function makeDaysArray() {
     const daysInMonth = getDaysInMonth(dateContext.targetDate);

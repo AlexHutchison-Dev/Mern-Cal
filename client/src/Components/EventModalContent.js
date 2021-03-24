@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import styled from "styled-components";
-import axios from "axios";
+import { deleteEvent } from "../Helpers/httpHelper";
 import { ModalContext } from "../Contexts/ModalContext";
 import { UserContext } from "../Contexts/UserContext";
 
@@ -49,24 +49,20 @@ function EventModalContent() {
     if (event) {
       event.preventDefault();
     }
+    changeUserContext.clearEventStore();
     changeModalContext.restoreDefaultState();
+
   }
 
   function handleDeleteClick() {
     //TODO Remove to helper DRY violation
     console.log("delete request");
-    axios
-      .post("http://localhost:8000/cal/deleteevent", {
-        user: userContext.user.id,
-        eventId: userContext.eventStore._id,
-      })
-      .then((responce) => {
-        if (responce.data.success) {
-          changeUserContext.updateUserEvents(responce.data.events);
-          handleClose();
-        }
-      })
-      .catch((err) => console.log(err));
+    deleteEvent(userContext.user.id, userContext.eventStore._id, (responce) => {
+      if (responce.data.success) {
+        changeUserContext.updateUserEvents(responce.data.events);
+        handleClose();
+      }
+    });
   }
 
   return (

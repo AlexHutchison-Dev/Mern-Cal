@@ -4,7 +4,6 @@ import { UserContext } from "../Contexts/UserContext";
 import { authenticateUser, fetchEvents } from "../Helpers/httpHelper.js";
 import styled from "styled-components";
 import LogInButton from "./form-inputs/LogInButton";
-import axios from "axios";
 
 const Form = styled.div`
   display: flex;
@@ -30,6 +29,7 @@ function LogIn() {
   const [redirect, setRedirect] = useState({ redirect: null });
   const [error, setError] = useState(null);
 
+  //Draw error banner with warnings about credential validation
   useEffect(() => {}, [error]);
 
   function handleChange(event) {
@@ -44,27 +44,18 @@ function LogIn() {
   function handleSubmit(event) {
     event.preventDefault();
     console.log(`submitting`);
-    if (!validateCredentials(credentials))
-      return setError(`Invalid Username or Password`);
-    
-    var id = null;
-    authenticateUser(credentials, (id) => {
-      if (id) {
-        changeUserContext.logIn(id);
-        fetchEvents(id,(events) => {
-          changeUserContext.updateUserEvents(events, () => {
-          setRedirect({ redirect: "/cal" });
-          })
-        });
-      }
-      else setError(`Invalid username or password.`);
-    })
-    // changeUserContext.logIn(authenticateUser(credentials, setError), (id) => {
-    //   fetchEvents(id, (events) => {
-    //     changeUserContext.updateUserEvents(events, () => {
-    //     })
-    //   })
-    // });
+    if (validateCredentials(credentials)) {
+      authenticateUser(credentials, (id) => {
+        if (id) {
+          changeUserContext.logIn(id);
+          fetchEvents(id, (events) => {
+            changeUserContext.updateUserEvents(events, () => {
+              setRedirect({ redirect: "/cal" });
+            });
+          });
+        } else setError(`Invalid username or password.`);
+      });
+    }
   }
 
   function validateCredentials(credentials) {

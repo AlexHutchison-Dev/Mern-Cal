@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
+import {deleteEvent} from "../Helpers/httpHelper";
 import { ModalContext } from "../Contexts/ModalContext";
 import { UserContext } from "../Contexts/UserContext";
-import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-
-
 
 const EventBox = styled.div`
   border: 1px solid #555;
@@ -54,16 +52,12 @@ function Event(props) {
 
   function handleDeleteClick() {
     
-    console.log("delete request");
-    axios
-      .post("http://localhost:8000/cal/deleteevent", { user: userContext.user.id , eventId: props.event._id})
-      .then((responce) => {
-        if (responce.data.success) {
-          changeUserContext.clearEventStore();
-          changeUserContext.updateUserEvents( responce.data.events );
-        }
-      })
-      .catch((err) => console.log(err));
+    deleteEvent(userContext.user.id, props.event._id, (responce) => {
+      if (responce.data.success) {
+        changeUserContext.clearEventStore();
+        changeUserContext.updateUserEvents( responce.data.events );
+      }
+    })
 
   }
 

@@ -4,7 +4,7 @@ const passport = require("passport");
 
 module.exports = {
   create: (req, res) => {
-    console.log("register request recieved")
+    console.log("register request recieved" + req.body.username + req.body.password)
     User.register(
       new User({ username: req.body.username, name: req.body.name }),
       req.body.password,
@@ -12,6 +12,7 @@ module.exports = {
         if (err) res.json(err.message);
         else {
           passport.authenticate("local")(req, res, () => {
+            console.log("registering new user");
             UserEventController.create(user._id);
             res.json({
               success: true,

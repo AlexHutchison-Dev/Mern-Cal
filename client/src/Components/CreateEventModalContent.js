@@ -38,6 +38,7 @@ function CreateEvent() {
   const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);
 
+  // Clears event data from context state on unmount
   useEffect(() => {
     return () => {
       changeUserContext.clearEventStore();
@@ -61,6 +62,7 @@ function CreateEvent() {
 
     const newEvent = {
       user: userContext.user.id,
+      //inserts date, month year from context state
       ...userContext.eventStore,
       title,
       notes,
@@ -72,8 +74,6 @@ function CreateEvent() {
   }
 
   function handleClose(event) {
-    //TODO Getting an error about changing state on unmounted component
-    
     if (event) {
       event.preventDefault();
     }
