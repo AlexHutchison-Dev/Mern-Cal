@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import {deleteEvent} from "../Helpers/httpHelper";
+import { deleteEvent } from "../Helpers/httpHelper";
 import { ModalContext } from "../Contexts/ModalContext";
 import { UserContext } from "../Contexts/UserContext";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const EventBox = styled.div`
   border: 1px solid #555;
@@ -27,11 +27,11 @@ const Title = styled.div`
   margin: 1%;
 `;
 const TrashIcon = styled.p`
- height:80%;
+  height: 80%;
   margin: 0;
   cursor: pointer;
   color: #555;
-  &:hover{
+  &:hover {
     color: red;
   }
 `;
@@ -44,28 +44,26 @@ function Event(props) {
 
   function handleEventClick(event) {
     event.preventDefault();
-    changeUserContext.eventStore( {...props.event}, () => {
+    changeUserContext.eventStore({ ...props.event }, () => {
       changeModalContext.modalType("event");
       changeModalContext.toggleVisibility();
     });
   }
 
   function handleDeleteClick() {
-    
     deleteEvent(userContext.user.id, props.event._id, (responce) => {
       if (responce.data.success) {
         changeUserContext.clearEventStore();
-        changeUserContext.updateUserEvents( responce.data.events );
+        changeUserContext.updateUserEvents(responce.data.events);
       }
-    })
-
+    });
   }
 
-  function manageEventName () {
-    if( props.event.title.length > 8) {
-      return(props.event.title.slice(0,8) + "...");
+  function manageEventName() {
+    if (props.event.title.length > 8) {
+      return props.event.title.slice(0, 8) + "...";
     }
-    return(props.event.title);
+    return props.event.title;
   }
 
   return (

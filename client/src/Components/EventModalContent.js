@@ -49,8 +49,8 @@ function EventModalContent() {
     if (event) {
       event.preventDefault();
     }
-    changeUserContext.clearEventStore();
     changeModalContext.restoreDefaultState();
+    changeUserContext.clearEventStore();
 
   }
 

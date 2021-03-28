@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext} from "react";
 import styled from "styled-components";
 import { addEvent } from "../Helpers/httpHelper";
 import { ModalContext } from "../Contexts/ModalContext";
@@ -39,11 +39,7 @@ function CreateEvent() {
   const [userContext, changeUserContext] = useContext(UserContext);
 
   // Clears event data from context state on unmount
-  useEffect(() => {
-    return () => {
-      changeUserContext.clearEventStore();
-    };
-  }, []);
+  
 
   const [notes, setNotes] = useState("");
   const [title, setTitle] = useState("");
@@ -80,8 +76,10 @@ function CreateEvent() {
     setNotes("");
     setTitle("");
     changeModalContext.restoreDefaultState();
-
+    userContext.clearEventStore();
   }
+
+  
 
   return (
     <div>
@@ -92,7 +90,7 @@ function CreateEvent() {
         <div className="row">
           <DateString
             date={
-              userContext.eventStore.date ? userContext.eventStore.date : ""
+              userContext.eventStore.date
             }
             heading="subheading"
           ></DateString>
