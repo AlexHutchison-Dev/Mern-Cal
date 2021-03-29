@@ -1,6 +1,5 @@
 const express = require("express");
 const session = require("express-session");
-const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo")(session);
@@ -15,12 +14,12 @@ const port = process.env.PORT || 8000;
 //Middleware
 
 var corsOptions = {
-  // origin: "http://localhost:3000",
+  origin: "*",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 app.use(express.static(path.join(__dirname, "client", "build")));
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 mongoose.connect(process.env.DB_URL, {
@@ -51,7 +50,7 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-// Datebase
+// Database
 mongoose.set("useCreateIndex", true);
 
 const db = mongoose.connection;
@@ -77,5 +76,6 @@ app.post("/user/register", UserControl.create);
 app.post("/user/login", UserControl.login);
 app.post("/user/logout", UserControl.logout);
 app.post("/cal/deleteevent", UserEventController.deleteevent);
+
 //Start Server
 app.listen(port, () => console.log(`server listening on port ${port}`));
