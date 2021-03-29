@@ -15,11 +15,11 @@ const port = process.env.PORT || 8000;
 //Middleware
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  // origin: "http://localhost:3000",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-app.use(express.static(path.join(__dirname, "../build")));
+app.use(express.static(path.join(__dirname, "client", "build")));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,7 +29,7 @@ mongoose.connect(process.env.DB_URL, {
 });
 app.use(
   session({
-    secret: "thisisashittysecret",
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),

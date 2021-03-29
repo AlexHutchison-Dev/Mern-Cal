@@ -55,7 +55,6 @@ function EventModalContent() {
   }
 
   function handleDeleteClick() {
-    //TODO Remove to helper DRY violation
     console.log("delete request");
     deleteEvent(userContext.user.id, userContext.eventStore._id, (responce) => {
       if (responce.data.success) {

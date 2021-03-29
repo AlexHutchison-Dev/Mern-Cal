@@ -35,6 +35,8 @@ function DateString(props) {
   var year = null; 
   const dateToFetch = `${dateContext.targetDate.$y}-${dateContext.targetDate.$M + 1}-${props.day ? props.day : dateContext.targetDate.$D}`
   
+  const dateString = fetchDate(dateToFetch, buildDateString);
+
   function fetchDate(date, callback) {
     const responce = dayjs(date);
     return callback(responce);
@@ -65,8 +67,6 @@ function DateString(props) {
     return "th";
   }
 
-  const dateString = fetchDate(dateToFetch, buildDateString);
-  
   return (
       <DateStringWrapper className="DateString">
         {props.heading === "subheading" ?
