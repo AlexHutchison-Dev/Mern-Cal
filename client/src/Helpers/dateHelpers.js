@@ -11,7 +11,7 @@ export function getDay(index) {
     "Friday",
     "Saturday",
   ];
-  if (index) return index === "list" ? weekdays : weekdays[index];
+  return index === "list" ? weekdays : weekdays[index];
 }
 
 // returns month name string from index int

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import OrdinalSuffix from "./OrdinalSuffix";
 import styled from "styled-components";
+import dayjs from "dayjs";
 import { DateContext } from "../Contexts/DateContext";
 import { getDay, getMonth } from "../Helpers/dateHelpers";
 
@@ -27,48 +27,54 @@ const DateH2 = styled.h2`
   }
 `;
 function DateString(props) {
-  const [globalState] = useContext(DateContext);
-  const day = "";
-
-  const date = props.date ? props.date : globalState.targetDate.$D;
-  const month = getMonth(globalState.targetDate.$M);
-  const year = globalState.targetDate.$y;
-
-  function setDayString() {
-    if (props.day === null) return "";
-    return getDay(globalState.targetDate.$W);
-  }
-  //TODO This date string is a mess.
-  setDayString();
-  if (props.heading === "subheading") {
-    return (
-      <DateStringWrapper className="DateString">
-        <DateH2Subeading>
-          {`
-          ${!day ? "Sunday" : day} 
-          ${day}
-        `}
-          <OrdinalSuffix date={date} heading={props.heading} />
-          {`${month} 
-          ${year}`}
-        </DateH2Subeading>
-      </DateStringWrapper>
-    );
+  const [dateContext] = useContext(DateContext);
+  
+  var day = null;
+  var date = null; 
+  var month = null;
+  var year = null; 
+  const dateToFetch = `${dateContext.targetDate.$y}-${dateContext.targetDate.$M + 1}-${props.day ? props.day : dateContext.targetDate.$D}`
+  
+  function fetchDate(date, callback) {
+    const responce = dayjs(date);
+    return callback(responce);
   }
 
+  function buildDateString(responce) {
+    day = getDay(0);
+    date = responce.$D;
+    month = getMonth(responce.$M);
+    year = responce.$y;
+    
+
+    return { 1: `${day} ${date}`,   2:` ${month} ${year}` };
+
+  }
+
+  function getOrdinalSuffix(date) {
+    const suffixes = { 1: "st", 2: "nd", 3: "rd" };
+
+    if (date / 10 < 1) {
+      if (suffixes[date]) return suffixes[date];
+    } else {
+      const dateDigits = ("" + date).split("");
+      const last = dateDigits.pop();
+      if (dateDigits[dateDigits.length - 1] * 1 === 1) return "th";
+      if (suffixes[last]) return suffixes[last];
+    }
+    return "th";
+  }
+
+  const dateString = fetchDate(dateToFetch, buildDateString);
+  
   return (
-    <DateStringWrapper className="DateString">
-      <DateH2>
-        {`
-        ${!day ? "Sunday" : day} 
-        ${date}
-      `}
-        <OrdinalSuffix date={date} heading={props.heading} />
-        {`${month} 
-        ${year}`}
-      </DateH2>
-    </DateStringWrapper>
-  );
+      <DateStringWrapper className="DateString">
+        {props.heading === "subheading" ?
+          <DateH2Subeading>{dateString[1]}<sup>{getOrdinalSuffix(date)}</sup>{dateString[2]}</DateH2Subeading> :
+          <DateH2>{dateString[1]}<sup>{getOrdinalSuffix(date)}</sup>{dateString[2]}</DateH2>
+        }
+      </DateStringWrapper>
+  )
 }
 
 export default DateString;
