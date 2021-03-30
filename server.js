@@ -56,7 +56,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, `db connection error`));
 db.once("open", () => console.log("db connection open"));
 
-//Cross Origin Handle Middleware
+//Cross Origin Request Handler
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 
