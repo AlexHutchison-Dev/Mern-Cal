@@ -24,6 +24,18 @@ mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+//Cross Origin Request Handler
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 
+  'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  if( req.method === 'OPTIONS'){
+    req.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    return res.status(200).json({});
+  }
+  next();
+});
 app.use(
   session({
     secret: process.env.SECRET,
@@ -55,20 +67,6 @@ const db = mongoose.connection;
 
 db.on("error", console.error.bind(console, `db connection error`));
 db.once("open", () => console.log("db connection open"));
-
-//Cross Origin Request Handler
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 
-  'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  if( req.method === 'OPTIONS'){
-    req.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-    return res.status(200).json({});
-  }
-  next();
-});
-
 
 //Controlers
 const UserControl = require("./controllers/UserController");
