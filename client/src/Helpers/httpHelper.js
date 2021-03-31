@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const serverURL = "172.105.073";
-const localHost = "http://localhost:8000"
+// const localHost = "http://localhost:8000"
 
 export function registerUser (credentials, callback) {
   axios
