@@ -1,9 +1,11 @@
 import axios from "axios";
 
+const serverURL = "172.105.073";
+const localHost = "http://localhost:8000"
 
 export function registerUser (credentials, callback) {
   axios
-      .post("http://localhost:8000/user/register", credentials)
+      .post(serverURL + "/user/register", credentials)
       .then((responce) => {
         console.log(responce.data);
         callback(responce.data);
@@ -14,7 +16,7 @@ export function registerUser (credentials, callback) {
 
 export function authenticateUser(credentials,callback) {
   axios
-    .post("http://localhost:8000/user/login", credentials)
+    .post(serverURL + "/user/login", credentials)
     .then((responce) => {
       console.log(responce.data.idEvents);
       callback(responce.data.id);
@@ -29,7 +31,7 @@ export function fetchEvents(id, callback) {
   if (!id) return console.error("no user id provided to retrieve events");
   console.log(`fetchEvents called`)
   axios
-    .post("http://localhost:8000/cal", {
+    .post(serverURL + "/cal", {
       id: id,
     })
     .then((responce) => {
@@ -43,7 +45,7 @@ export function fetchEvents(id, callback) {
 
 export function addEvent(newEvent, callback) {
   axios
-    .post("http://localhost:8000/cal/addevent", { ...newEvent })
+    .post(serverURL + "/cal/addevent", { ...newEvent })
     .then((responce) => {
       if (responce.data.success) {
         callback(responce.data.events);
@@ -56,7 +58,7 @@ export function addEvent(newEvent, callback) {
 export function deleteEvent(userId, eventId, callback) {
   console.log("delete request");
     axios
-      .post("http://localhost:8000/cal/deleteevent", { user: userId , eventId: eventId})
+      .post(serverURL + "/cal/deleteevent", { user: userId , eventId: eventId})
       .then((responce) => {
         callback(responce);
       })
