@@ -76,7 +76,7 @@ function CreateEvent() {
     setNotes("");
     setTitle("");
     changeModalContext.restoreDefaultState();
-    userContext.clearEventStore();
+    changeUserContext.clearEventStore();
   }
 
   
