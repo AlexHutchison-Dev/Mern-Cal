@@ -1,7 +1,7 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import {UserContext} from "../Contexts/UserContext";
+import { UserContext } from "../Contexts/UserContext";
 
 const NavContainer = styled.div`
   display: flex;
@@ -15,7 +15,6 @@ const NavBar = styled.nav`
   width: 100%;
   margin: auto;
   /* padding-top: 15px; */
-
 `;
 
 const Logo = styled.a`
@@ -31,8 +30,8 @@ const NavBtn = styled.button`
 
 function Nav() {
   const history = useHistory();
-  const [userContext, changeUserContext] = useContext(UserContext)
-  
+  const [userContext, changeUserContext] = useContext(UserContext);
+
   function handleButtonBodyClick(event) {
     console.log("handleButtonBodyClick called " + event.target.name);
     if (event.target.name === "/") {
@@ -40,10 +39,7 @@ function Nav() {
       changeUserContext.clearEventStore();
     }
     history.push(event.target.name);
-  console.log(history.location.pathname)
-
   }
-  console.log(history)
   return (
     <NavContainer>
       <NavBar className="fixed-top navbar-dark bg-primary">
@@ -56,30 +52,36 @@ function Nav() {
           Calendar
         </Logo>
         <div>
-          {!userContext.user.id && <NavBtn
-            type="button"
-            name="/register"
-            className="btn btn-light"
-            onClick={handleButtonBodyClick}
-          >
-            Sign Up
-          </NavBtn>}
+          {!userContext.user.id && (
+            <NavBtn
+              type="button"
+              name="/register"
+              className="btn btn-light"
+              onClick={handleButtonBodyClick}
+            >
+              Sign Up
+            </NavBtn>
+          )}
 
-          {userContext.user.id === "" ? <NavBtn
-            type="button"
-            className="btn btn-light"
-            name="/login"
-            onClick={handleButtonBodyClick}
-          >
-            Log In
-          </NavBtn> : <NavBtn
-            type="button"
-            className="btn btn-light"
-            name="/"
-            onClick={handleButtonBodyClick}
-          >
-            Log Out
-          </NavBtn>}
+          {userContext.user.id === "" ? (
+            <NavBtn
+              type="button"
+              className="btn btn-light"
+              name="/login"
+              onClick={handleButtonBodyClick}
+            >
+              Log In
+            </NavBtn>
+          ) : (
+            <NavBtn
+              type="button"
+              className="btn btn-light"
+              name="/"
+              onClick={handleButtonBodyClick}
+            >
+              Log Out
+            </NavBtn>
+          )}
         </div>
       </NavBar>
     </NavContainer>
