@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import styled from "styled-components";
 import { deleteEvent } from "../Helpers/httpHelper";
@@ -44,6 +44,34 @@ function EventModalContent() {
 
   const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);
+  const [edited, setEdited] = useState(false);
+  const [eventFields, setEventFields] = useState({
+    title: userContext.eventStore.title,
+    notes: userContext.eventStore.notes,
+  });
+
+  function handleChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+    setEventFields((prevValue) => {
+      return { ...prevValue, [name]: [value] };
+    });
+    testForEdits();
+  }
+  function saveChanges() {
+    //TODO
+    console.log(`Saving changes to event, new Values: ${eventFields}`);
+  }
+
+  function testForEdits() {
+    if (
+      eventFields.title !== userContext.eventStore.title ||
+      eventFields.notes !== userContext.eventStore.notes
+    ) {
+      setEdited(true);
+      console.log("edited");
+    } else setEdited(true);
+  }
 
   function handleClose(event) {
     if (event) {
@@ -51,7 +79,6 @@ function EventModalContent() {
     }
     changeModalContext.restoreDefaultState();
     changeUserContext.clearEventStore();
-
   }
 
   function handleDeleteClick() {
@@ -77,24 +104,37 @@ function EventModalContent() {
         <div className="row">
           <label>Title</label>
         </div>
+
+        {/* Title Field */}
+
         <div className="row">
           <DataField
+            name="title"
             placeholder="Title..."
-            defaultValue={userContext.eventStore.title}
-            readonly
+            defaultValue={eventFields.title}
+            onChange={handleChange}
           ></DataField>
         </div>
+
+        {/* Notes Field */}
+
         <div className="row">
           <label>Notes</label>
         </div>
 
         <div className="row">
-          <DataField
-            placeholder="Notes..."
-            defaultValue={userContext.eventStore.notes}
-            readonly
-          ></DataField>
+          
+            <DataField
+              name="notes"
+              placeholder="Notes..."
+              defaultValue={eventFields.notes}
+              onChange={handleChange}
+            ></DataField>
+          
         </div>
+
+        {/* Controls */}
+
         <div className="row">
           <PageBtn>
             <button
@@ -114,6 +154,17 @@ function EventModalContent() {
               Close
             </button>
           </PageBtn>
+         
+            <PageBtn>
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={saveChanges}
+                disabled={!edited}
+              >
+                Save Changes
+              </button>
+            </PageBtn>
         </div>
       </CreateEventContainer>
     </div>

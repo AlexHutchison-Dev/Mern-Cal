@@ -40,8 +40,10 @@ function Nav() {
       changeUserContext.clearEventStore();
     }
     history.push(event.target.name);
-  }
+  console.log(history.location.pathname)
 
+  }
+  console.log(history)
   return (
     <NavContainer>
       <NavBar className="fixed-top navbar-dark bg-primary">
