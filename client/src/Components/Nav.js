@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import MonthSelect from "./MonthSelect";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
@@ -43,14 +44,18 @@ function Nav() {
   return (
     <NavContainer>
       <NavBar className="fixed-top navbar-dark bg-primary">
-        <Logo
-          className="navbar-brand"
-          name="/"
-          id="logo"
-          onClick={handleButtonBodyClick}
-        >
-          Calendar
-        </Logo>
+        {userContext.user.id ? (
+          <MonthSelect />
+        ) : (
+          <Logo
+            className="navbar-brand"
+            name="/"
+            id="logo"
+            onClick={handleButtonBodyClick}
+          >
+            Calendar
+          </Logo>
+        )}
         <div>
           {!userContext.user.id && (
             <NavBtn

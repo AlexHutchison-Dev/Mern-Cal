@@ -5,19 +5,25 @@ import { getMonth } from "../Helpers/dateHelpers";
 
 const MonthSelectContainer = styled.div`
   display: flex;
-  width: 100%;
-  margin: 3rem 0 -1.5rem 0;
+  align-items: center;
+  justify-content: space-between;
+  width: 15%;
+  /* margin: 3rem 0 -1.5rem 0; */
 `;
 
 const MonthButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin: 0 10px 0 10px;
+
 `;
 
 const CurrentMonth = styled.h2`
-  margin: 0 2rem;
+  /* margin: 0 2rem; */
+  display: flex;
   width: 175px;
+
 `;
 
 function MonthSelect() {
@@ -34,7 +40,7 @@ function MonthSelect() {
     <MonthSelectContainer>
       <MonthButton
         type="button"
-        className="btn btn-primary"
+        className="btn"
         onClick={handlePrevious}
       >
         Prev
@@ -42,7 +48,7 @@ function MonthSelect() {
       <CurrentMonth>{getMonth(globalState.targetDate.$M)}</CurrentMonth>
       <MonthButton
         type="button"
-        className="btn btn-primary"
+        className="btn"
         onClick={handleNext}
       >
         Next

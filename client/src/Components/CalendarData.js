@@ -12,25 +12,26 @@ import Dates from "./Dates";
 const CalendarContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 90vw;
-  max-width: 1200px;
+  width: 100vw;
+  height: 100%;
+  
 
-  text-align: center;
+  /* text-align: center;
   @media (max-width: 1000px) {
     width: 100vw;
-  }
+  } */
 `;
 
 const CalendarWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 90%;
+  /* width: 90%; */
   border: 2px solid #555;
   border-radius: 4px;
-  margin: 50px 0;
-  @media (max-width: 800px) {
+  /* margin: 50px 0; */
+  /* @media (max-width: 800px) {
     width: 99%;
-  }
+  } */
 `;
 
 function CalendarData() {
@@ -66,8 +67,6 @@ function CalendarData() {
 
     return (
       <CalendarContainer>
-        <DateString />
-        <MonthSelect />
         <CalendarWrapper>
           <Weekdays />
           <Dates days={days} />
