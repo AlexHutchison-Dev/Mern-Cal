@@ -3,6 +3,7 @@ import MonthSelect from "./MonthSelect";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
+import { DateContext } from "../Contexts/DateContext";
 
 const NavContainer = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const NavBar = styled.nav`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 10%;
   margin: auto;
   /* padding-top: 15px; */
 `;
@@ -29,9 +31,20 @@ const NavBtn = styled.button`
   margin: 0 10px 0 10px;
 `;
 
+const CurrentYear = styled.h1`
+color: white;
+`;
+
+const AuthButtonContainer = styled.div`
+  width: 20%;
+  display: flex;
+  justify-content:flex-end;
+`;
+
 function Nav() {
   const history = useHistory();
   const [userContext, changeUserContext] = useContext(UserContext);
+  const [dateContext,] = useContext(DateContext);
 
   function handleButtonBodyClick(event) {
     console.log("handleButtonBodyClick called " + event.target.name);
@@ -56,7 +69,11 @@ function Nav() {
             Calendar
           </Logo>
         )}
-        <div>
+        {userContext.user.id && 
+        <CurrentYear>{dateContext.targetDate.$y}</CurrentYear>
+        }
+        <AuthButtonContainer>
+
           {!userContext.user.id && (
             <NavBtn
               type="button"
@@ -87,7 +104,7 @@ function Nav() {
               Log Out
             </NavBtn>
           )}
-        </div>
+        </AuthButtonContainer>
       </NavBar>
     </NavContainer>
   );
