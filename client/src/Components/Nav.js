@@ -32,19 +32,19 @@ const NavBtn = styled.button`
 `;
 
 const CurrentYear = styled.h1`
-color: white;
+  color: white;
 `;
 
 const AuthButtonContainer = styled.div`
   width: 20%;
   display: flex;
-  justify-content:flex-end;
+  justify-content: flex-end;
 `;
 
 function Nav() {
   const history = useHistory();
   const [userContext, changeUserContext] = useContext(UserContext);
-  const [dateContext,] = useContext(DateContext);
+  const [dateContext] = useContext(DateContext);
 
   function handleButtonBodyClick(event) {
     console.log("handleButtonBodyClick called " + event.target.name);
@@ -69,11 +69,10 @@ function Nav() {
             Calendar
           </Logo>
         )}
-        {userContext.user.id && 
-        <CurrentYear>{dateContext.targetDate.$y}</CurrentYear>
-        }
+        {userContext.user.id && (
+          <CurrentYear>{dateContext.targetDate.$y}</CurrentYear>
+        )}
         <AuthButtonContainer>
-
           {!userContext.user.id && (
             <NavBtn
               type="button"

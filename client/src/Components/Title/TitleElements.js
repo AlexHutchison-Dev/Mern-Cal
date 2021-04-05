@@ -5,6 +5,7 @@ export const Title = styled.div`
   color: white;
   width: 90%;
   text-align: left;
+  margin-top: 10%;
   padding: 3% 25% 7%;
   flex-grow: 1;
   overflow: visible;
