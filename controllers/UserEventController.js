@@ -64,28 +64,35 @@ module.exports = {
     User.authenticate("local")(req, res, async () => {
       find(req.body.user, (docs) => {
         var userEvent = docs[0];
-        console.log(userEvent)
+        console.log(userEvent);
         userEvent.events.pull({ _id: req.body.eventId });
 
-        
-          userEvent.save(() => {
-            find(req.body.user, (docs) => {
-              
-              console.log(`delete events docs[0] :  ${docs[0]}`);
-              res.json({
-                success: true,
-                events: docs[0].events,
-              });
+        userEvent.save(() => {
+          find(req.body.user, (docs) => {
+            console.log(`delete events docs[0] :  ${docs[0]}`);
+            res.json({
+              success: true,
+              events: docs[0].events,
             });
           });
-          
-            
+        });
+      });
+    });
+  },
 
-            
+  updateevent: (req, res) => {
+    User.authenticate("local")(req, res, async () => {
+      find(req.body._id, (docs) => {
+        var userEvent = docs[0];
+        userEvent.events.pull({ _id: req.body.event._id });
+        userEvent.events.push({ ...req.body.event });
+        userEvent.save(() => {
+          res.json({
+            success: true,
+            message: "Updated event sucessfully",
           });
-        
-        
-      
+        });
+      });
     });
   },
 };

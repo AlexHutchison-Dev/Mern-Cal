@@ -33,17 +33,18 @@ function DateString(props) {
   var date = null; 
   var month = null;
   var year = null; 
-  const dateToFetch = `${dateContext.targetDate.$y}-${dateContext.targetDate.$M + 1}-${props.day ? props.day : dateContext.targetDate.$D}`
+  const dateToFetch = `${dateContext.targetDate.$y}-${dateContext.targetDate.$M + 1}-${props.date ? props.date : dateContext.targetDate.$D}`
   
   const dateString = fetchDate(dateToFetch, buildDateString);
 
   function fetchDate(date, callback) {
     const responce = dayjs(date);
+    console.log(responce);
     return callback(responce);
   }
 
   function buildDateString(responce) {
-    day = getDay(0);
+    day = getDay(responce.$W);
     date = responce.$D;
     month = getMonth(responce.$M);
     year = responce.$y;

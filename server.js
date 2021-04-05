@@ -88,6 +88,6 @@ app.post("/user/register", UserControl.create);
 app.post("/user/login", UserControl.login);
 app.post("/user/logout", UserControl.logout);
 app.post("/cal/deleteevent", UserEventController.deleteevent);
-
+app.post("/cal/updateevent",UserEventController.updateevent); 
 //Start Server
 app.listen(port, () => console.log(`server listening on port ${port}`));

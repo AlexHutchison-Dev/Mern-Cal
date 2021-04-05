@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-
+import { updateEvent, fetchEvents } from "../Helpers/httpHelper";
 import styled from "styled-components";
 import { deleteEvent } from "../Helpers/httpHelper";
 import { ModalContext } from "../Contexts/ModalContext";
@@ -51,16 +51,32 @@ function EventModalContent() {
   });
 
   function handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
+    const fields = { 
+      [event.target.name] : event.target.value
+    };
+    console.log(fields);
     setEventFields((prevValue) => {
-      return { ...prevValue, [name]: [value] };
+      return { ...prevValue, ...fields };
     });
     testForEdits();
   }
   function saveChanges() {
     //TODO
     console.log(`Saving changes to event, new Values: ${eventFields}`);
+    console.log(userContext.eventStore._id);
+    console.log({...userContext.eventStore, ...eventFields})
+    updateEvent(
+      userContext.user.id,
+
+      { ...userContext.eventStore, ...eventFields },
+      (responce) => {
+        console.log(responce);
+        if (responce.success) {
+          console.log("handling close")
+          handleClose();
+        }
+      }
+    );
   }
 
   function testForEdits() {
@@ -77,8 +93,11 @@ function EventModalContent() {
     if (event) {
       event.preventDefault();
     }
-    changeModalContext.restoreDefaultState();
-    changeUserContext.clearEventStore();
+    fetchEvents(userContext.user.id, (events) => {
+      changeUserContext.updateUserEvents(events);
+      changeModalContext.restoreDefaultState();
+      changeUserContext.clearEventStore();
+    });
   }
 
   function handleDeleteClick() {
@@ -97,7 +116,7 @@ function EventModalContent() {
         <Title>Event</Title>
         <div className="row">
           <DateString
-            date={userContext.eventStore.date}
+            date={userContext.eventStore.day}
             heading="subheading"
           ></DateString>
         </div>
@@ -123,14 +142,12 @@ function EventModalContent() {
         </div>
 
         <div className="row">
-          
-            <DataField
-              name="notes"
-              placeholder="Notes..."
-              defaultValue={eventFields.notes}
-              onChange={handleChange}
-            ></DataField>
-          
+          <DataField
+            name="notes"
+            placeholder="Notes..."
+            defaultValue={eventFields.notes}
+            onChange={handleChange}
+          ></DataField>
         </div>
 
         {/* Controls */}
@@ -154,17 +171,17 @@ function EventModalContent() {
               Close
             </button>
           </PageBtn>
-         
-            <PageBtn>
-              <button
-                type="button"
-                className="btn btn-success"
-                onClick={saveChanges}
-                disabled={!edited}
-              >
-                Save Changes
-              </button>
-            </PageBtn>
+
+          <PageBtn>
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={saveChanges}
+              disabled={!edited}
+            >
+              Save Changes
+            </button>
+          </PageBtn>
         </div>
       </CreateEventContainer>
     </div>

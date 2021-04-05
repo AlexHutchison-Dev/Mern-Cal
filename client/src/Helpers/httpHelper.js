@@ -3,18 +3,17 @@ import axios from "axios";
 // const serverURL = "172.105.073";
 const serverURL = "http://localhost:8000";
 
-export function registerUser (credentials, callback) {
+export function registerUser(credentials, callback) {
   axios
-      .post(serverURL + "/user/register", credentials)
-      .then((responce) => {
-        console.log(responce.data);
-        callback(responce.data);
-        
-      })
-      .catch((err) => console.log(err));
+    .post(serverURL + "/user/register", credentials)
+    .then((responce) => {
+      console.log(responce.data);
+      callback(responce.data);
+    })
+    .catch((err) => console.log(err));
 }
 
-export function authenticateUser(credentials,callback) {
+export function authenticateUser(credentials, callback) {
   axios
     .post(serverURL + "/user/login", credentials)
     .then((responce) => {
@@ -22,14 +21,14 @@ export function authenticateUser(credentials,callback) {
       callback(responce.data.id);
     })
     .catch((err) => {
-      callback({sucess: false, message: "Invalid Username or password"});
+      callback({ sucess: false, message: "Invalid Username or password" });
       console.log(err);
     });
 }
 
 export function fetchEvents(id, callback) {
   if (!id) return console.error("no user id provided to retrieve events");
-  console.log(`fetchEvents called`)
+  console.log(`fetchEvents called`);
   axios
     .post(serverURL + "/cal", {
       id: id,
@@ -37,10 +36,10 @@ export function fetchEvents(id, callback) {
     .then((responce) => {
       callback(responce.data.events);
     })
-    .catch((err) =>{
-    console.log(err);
+    .catch((err) => {
+      console.log(err);
       return null;
-    }) 
+    });
 }
 
 export function addEvent(newEvent, callback) {
@@ -57,11 +56,22 @@ export function addEvent(newEvent, callback) {
 
 export function deleteEvent(userId, eventId, callback) {
   console.log("delete request");
-    axios
-      .post(serverURL + "/cal/deleteevent", { user: userId , eventId: eventId})
-      .then((responce) => {
-        callback(responce);
-      })
-      .catch((err) => console.log(err));
+  axios
+    .post(serverURL + "/cal/deleteevent", { user: userId, eventId: eventId })
+    .then((responce) => {
+      callback(responce);
+    })
+    .catch((err) => console.log(err));
 }
 
+export function updateEvent(id, event, callback) {
+  axios
+    .post(serverURL + "/cal/updateevent", { _id: id, event: event })
+    .then((responce) => {
+      console.log(responce);
+      callback({success: true, message: responce.data});
+    })
+    .catch((error) => {
+      return { sucess: false, message: error };
+    });
+}
