@@ -1,7 +1,15 @@
 import axios from "axios";
 
-const serverURL = "172.105.0.73";
-// const serverURL = "http://localhost:8000";
+var serverURL;
+
+if (process.env.NODE_ENV === 'production')
+{
+  serverURL = "172.105.0.73";
+}
+else 
+{
+  serverURL = "http://localhost:8000";
+}
 
 export function registerUser(credentials, callback) {
   axios
