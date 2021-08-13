@@ -2,12 +2,9 @@ import axios from "axios";
 
 var serverURL;
 
-if (process.env.NODE_ENV === 'production')
-{
+if (process.env.NODE_ENV === "production") {
   serverURL = "172.105.0.73";
-}
-else 
-{
+} else {
   serverURL = "http://localhost:8000";
 }
 
@@ -77,7 +74,7 @@ export function updateEvent(id, event, callback) {
     .post(serverURL + "/cal/updateevent", { _id: id, event: event })
     .then((responce) => {
       console.log(responce);
-      callback({success: true, message: responce.data});
+      callback({ success: true, message: responce.data });
     })
     .catch((error) => {
       return { sucess: false, message: error };

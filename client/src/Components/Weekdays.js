@@ -9,16 +9,14 @@ const WeekdaysContainer = styled.div`
   flex-wrap: nowrap;
   width: 100%;
   height: 50px;
-  background-color: rgba(52, 97, 165, 0.836);
-  border-bottom: 2px solid rgba(0, 0, 0);
-  color: white;
+  color: #555;
 `;
 
 const DayLabels = styled.div`
   display: flex;
   word-wrap: wrap;
   width: calc(100% / 7);
-  color: white;
+  color: #555;
   height: 50px;
   align-items: center;
  

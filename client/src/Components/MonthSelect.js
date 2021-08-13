@@ -7,7 +7,7 @@ const MonthSelectContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 20%;
+  width: 30%;
 `;
 
 const MonthButton = styled.button`
@@ -20,6 +20,7 @@ const MonthButton = styled.button`
 const CurrentMonth = styled.h3`
   display: flex;
   width: 175px;
+  color: #555;
 `;
 
 function MonthSelect() {
@@ -35,12 +36,13 @@ function MonthSelect() {
   return (
     <MonthSelectContainer>
       <MonthButton type="button" className="btn" onClick={handlePrevious}>
-        Prev
+        &lt;
+      </MonthButton>
+      
+      <MonthButton type="button" className="btn" onClick={handleNext}>
+        &gt;
       </MonthButton>
       <CurrentMonth>{getMonth(globalState.targetDate.$M)}</CurrentMonth>
-      <MonthButton type="button" className="btn" onClick={handleNext}>
-        Next
-      </MonthButton>
     </MonthSelectContainer>
   );
 }
