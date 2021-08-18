@@ -3,23 +3,21 @@ import { monthStartDay, getDaysInMonth } from "../Helpers/dateHelpers";
 import { Redirect } from "react-router-dom";
 import { DateContext } from "../Contexts/DateContext";
 import { UserContext } from "../Contexts/UserContext";
-import styled from "styled-components";
-import DateString from "./DateString";
-import MonthSelect from "./MonthSelect";
+import styled from "styled-components"
 import Weekdays from "./Weekdays";
 import Dates from "./Dates";
 
 const CalendarContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100vw;
+  width: 99vw;
   height: 100%;
+  margin: 0.5vw;
 `;
 
 const CalendarWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  border: 2px solid #555;
   border-radius: 4px;
 `;
 

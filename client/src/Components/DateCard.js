@@ -4,12 +4,13 @@ import AddEvent from "./AddEvent";
 import Event from "./Event";
 import { DateContext } from "../Contexts/DateContext";
 import { UserContext } from "../Contexts/UserContext";
+import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
 const Day = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: calc(100% / 7 - 0px);
-  border: 1px solid #555;
+  border: 1px solid #aaa;
   color: black;
   height: 115px;
   align-items: top;
@@ -17,32 +18,13 @@ const Day = styled.div`
 `;
 
 const Today = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(100% / 7 - 0px);
-  border: 1px solid #555;
-  font-weight: bold;
-  color: white;
-  font-size: 1.7rem;
-  background-color: rgba(43, 223, 43, 0.87) !important;
-  height: 115px;
-  align-items: top;
-  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  border: 1px solid rgba(43, 223, 43, 1);
 `;
-const EvenDay = styled.div`
-  display: flex;
-  flex-wrap: wrap;
 
-  width: calc(100% / 7 - 0px);
-  border: 1px solid #555;
-  color: black;
-  height: 115px;
-  align-items: top;
-  background-color: rgba(46, 161, 255, 0.486);
-  justify-content: space-between;
-`;
 const H4 = styled.h4`
-  margin: 0;
+  margin: 1%;
 `;
 
 const DateBar = styled.div`
@@ -55,9 +37,14 @@ const EventContainer = styled.div`
   width: 100%;
 `;
 
+const Content = styled.div`
+  width: 100%;
+`;
+
 function DateCard(props) {
   //TODO replace this state with css hover visibility due to lag
-  const [hover, setHover] = useState(false);
+  const mobile = navigator.MaxTouchPoints > 0 ? true : false;
+  const [hover, setHover] = useState(mobile);
 
   const [globalState] = useContext(DateContext);
   const [userContext] = useContext(UserContext);
@@ -72,7 +59,9 @@ function DateCard(props) {
   };
 
   function toggleHover() {
-    setHover(!hover);
+    if (!mobile) {
+      setHover(!hover);
+    }
   }
 
   if (userContext.user.events) {
@@ -83,70 +72,9 @@ function DateCard(props) {
         event.year === globalState.targetDate.$y
     );
   }
-  if (props.day === globalState.targetDate.$D) {
-    return (
-      //TODO need to look at event box styling
-      <Today
-        onMouseEnter={toggleHover}
-        onMouseLeave={toggleHover}
-        key={props.day}
-      >
-        <DateBar>
-          <H4>{props.day}</H4>
-          {hover ? <AddEvent eventDate={todaysDate} /> : ""}
-        </DateBar>
 
-        <EventContainer>
-          {todaysEvents &&
-            todaysEvents.map((event, index) => {
-              if (index < 1) {
-                return <Event event={event} key={event._id} />;
-              }
-              if (index === 1) {
-                const moreEvents = {
-                  title: `+ ${todaysEvents.length - 1} more...`,
-                };
-                return <Event event={moreEvents} key={event._id} />;
-              } else return "";
-            })}
-        </EventContainer>
-      </Today>
-    );
-  }
-
-  //TODO major DRY violation need to sort this
-  if (props.index % 2 !== 0) {
-    return (
-      <EvenDay
-        onMouseEnter={toggleHover}
-        onMouseLeave={toggleHover}
-        key={props.day}
-      >
-        <DateBar>
-          <H4>{props.day}</H4>
-          {hover ? <AddEvent eventDate={todaysDate} /> : ""}
-        </DateBar>
-
-        <EventContainer>
-          {todaysEvents &&
-            todaysEvents.map((event, index) => {
-              if (index < 1) {
-                return <Event event={event} key={event._id} />;
-              }
-              if (index === 1) {
-                const moreEvents = {
-                  title: `+ ${todaysEvents.length - 1} more...`,
-                };
-                return <Event event={moreEvents} key={event._id} />;
-              } else return "";
-            })}
-        </EventContainer>
-      </EvenDay>
-    );
-  }
-
-  return (
-    <Day onMouseEnter={toggleHover} onMouseLeave={toggleHover} key={props.day}>
+  const dateInfo = (
+    <Content>
       <DateBar>
         <H4>{props.day}</H4>
         {hover ? <AddEvent eventDate={todaysDate} /> : ""}
@@ -166,6 +94,27 @@ function DateCard(props) {
             } else return "";
           })}
       </EventContainer>
+    </Content>
+  );
+
+  if (props.day === globalState.targetDate.$D) {
+    return (
+      //TODO need to look at event box styling
+      <Day>
+        <Today
+          onMouseEnter={toggleHover}
+          onMouseLeave={toggleHover}
+          key={props.day}
+        >
+          {dateInfo}
+        </Today>
+      </Day>
+    );
+  }
+
+  return (
+    <Day onMouseEnter={toggleHover} onMouseLeave={toggleHover} key={props.day}>
+      {dateInfo}
     </Day>
   );
 }

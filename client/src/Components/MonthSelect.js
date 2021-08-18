@@ -15,6 +15,7 @@ const MonthButton = styled.button`
   align-items: center;
   cursor: pointer;
   margin: 0 10px 0 10px;
+  background-color: white;
 `;
 
 const CurrentMonth = styled.h3`
@@ -35,11 +36,11 @@ function MonthSelect() {
   }
   return (
     <MonthSelectContainer>
-      <MonthButton type="button" className="btn" onClick={handlePrevious}>
+      <MonthButton type="button" className="btn btn-light" onClick={handlePrevious}>
         &lt;
       </MonthButton>
       
-      <MonthButton type="button" className="btn" onClick={handleNext}>
+      <MonthButton type="button" className="btn btn-light" onClick={handleNext}>
         &gt;
       </MonthButton>
       <CurrentMonth>{getMonth(globalState.targetDate.$M)}</CurrentMonth>
