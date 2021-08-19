@@ -23,11 +23,11 @@ function TitleElements() {
 
   return (
     <section id="title">
-      <Title className="container-fluid ">
+      <Title >
         <ContentContainer>
           <ContentRow className="row">
-            <div>
-              <TitleTexts className="col-lg-6 " id="title-div">
+            <div className="col-lg-6 ">
+              <TitleTexts>
                 <BigHeading>Organise your life, </BigHeading>
                 <ButtonContainer>
                   <SignUpButton
