@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
-import {changeTargetDateMonth} from '../Helpers/dateHelpers';
+import { changeTargetDateMonth } from "../Helpers/dateHelpers";
 export const DateContext = createContext();
 
 export const DateProvider = (props) => {
@@ -10,19 +10,27 @@ export const DateProvider = (props) => {
   // Update targetDate state when month offset changed
   useEffect(() => {
     setDateContext((prevValue) => {
-      return {...prevValue, targetDate: changeTargetDateMonth(dateContext.monthOffset)}
-    })
+      return {
+        ...prevValue,
+        targetDate: changeTargetDateMonth(dateContext.monthOffset),
+      };
+    });
   }, [dateContext.monthOffset]);
 
-  // Manage changes to global state
   function changeMonthOffset(modifier, callback) {
-    modifier === "subtract"
-      ? setDateContext((prevValue) => {
-          return { ...prevValue, monthOffset: dateContext.monthOffset - 1 };
-        })
-      : setDateContext((prevValue) => {
-          return { ...prevValue, monthOffset: dateContext.monthOffset + 1 };
-        });
+    if (modifier === 0) {
+      setDateContext((prevValue) => {
+        return { ...prevValue, monthOffset: 0 };
+      });
+    } else {
+      modifier === "subtract"
+        ? setDateContext((prevValue) => {
+            return { ...prevValue, monthOffset: dateContext.monthOffset - 1 };
+          })
+        : setDateContext((prevValue) => {
+            return { ...prevValue, monthOffset: dateContext.monthOffset + 1 };
+          });
+    }
 
     if (callback) callback();
   }

@@ -3,7 +3,7 @@ import ModalBase from "./Modals/ModalBase";
 import { DateContext } from "../Contexts/DateContext";
 import styled from "styled-components";
 
-import CalendarData from "./CalendarData";
+import MonthView from "./MonthView";
 
 const Container = styled.div`
   height: calc(100vh - 82px);
@@ -17,7 +17,7 @@ function Calendar() {
 
   return (
     <Container>
-      <CalendarData />
+      <MonthView />
       <ModalBase />
     </Container>
   );

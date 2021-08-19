@@ -56,6 +56,9 @@ export function getDaysInMonth(targetDate) {
 }
 
 export function changeTargetDateMonth(monthOffset) {
+  
+  console.log("changeTargetDateMonth");
+
   var targetDate = null;
 
   if (monthOffset === 0) {

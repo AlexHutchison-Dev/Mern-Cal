@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { DateContext } from "../Contexts/DateContext";
 import { getMonth } from "../Helpers/dateHelpers";
 
+
 const MonthSelectContainer = styled.div`
   display: flex;
   align-items: center;
@@ -14,6 +15,11 @@ const MonthButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin: 0 10px 0 10px;
+  background-color: white;
+`;
+
+const TodayButton = styled.button`
   margin: 0 10px 0 10px;
   background-color: white;
 `;
@@ -34,12 +40,17 @@ function MonthSelect() {
   function handleNext() {
     changeMonthOffset("add");
   }
+
+  function handleToday() {
+    console.log("handle today")
+    changeMonthOffset(0);
+  }
   return (
     <MonthSelectContainer>
       <MonthButton type="button" className="btn btn-light" onClick={handlePrevious}>
         &lt;
       </MonthButton>
-      
+      <TodayButton type="button" className="btn btn-light" onClick={handleToday}>Today</TodayButton>      
       <MonthButton type="button" className="btn btn-light" onClick={handleNext}>
         &gt;
       </MonthButton>
