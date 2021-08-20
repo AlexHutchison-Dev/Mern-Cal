@@ -26,6 +26,7 @@ module.exports = {
   },
 
   login: (req, res) => {
+    console.log("requwst for login recieved!");
     const credentials = new User({
       username: req.body.username,
       password: req.body.password,
