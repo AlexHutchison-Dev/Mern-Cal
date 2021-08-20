@@ -9,7 +9,7 @@ color: black;
 height: 115px;
 align-items: top;
 justify-content: space-between;
-background-color: rgba(148, 148, 148, 0.281) !important;
+background-color: rgba(108, 178, 213, 0.15) !important;
 `;
 
 function DateCardNull(props) {

@@ -3,17 +3,16 @@ import styled from "styled-components";
 export const Title = styled.div`
   background-color: #007bff;
   color: white;
-  width: 90%;
+  width: 100%;
   text-align: left;
-  margin-top: 10%;
   padding: 3% 25% 7%;
   flex-grow: 1;
   overflow: visible;
+  z-index: 100;
 `;
 
 export const ContentRow = styled.div`
   height: 90%;
-  padding: 0 10%;
 `;
 export const TitleImage = styled.img`
   width: calc(30vw);
@@ -23,6 +22,7 @@ export const TitleImage = styled.img`
   padding-top: 10%;
   margin: auto;
   display: block;
+  z-index: 200;
 
   @media (max-width: 1330px) {
     transform: rotate(0deg);
@@ -41,15 +41,11 @@ export const TitleImage = styled.img`
   }
 `;
 export const TitleTexts = styled.div`
-  position: relative;
-  top: 50%;
-  margin-top: -20%;
-  padding-left: 15%;
-  justify-content: flex-start;
+  margin-left: -70%;
   text-shadow: 2px 2px 2px #555;
-  @media (max-width: 1100px) {
-    align-items: center;
-  }
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
 `;
 export const BigHeading = styled.h1`
   color: white;
@@ -61,7 +57,6 @@ export const BigHeading = styled.h1`
 
 export const ContentContainer = styled.div`
   margin-top: 10%;
-  /* height: calc((30vw / 1.8) + 400px); */
   background-color: #007bff;
   @media (max-width: 1000px) {
     height: calc(30vw + 800px);
@@ -73,7 +68,5 @@ export const ButtonContainer = styled.div`
 `;
 
 export const SignUpButton = styled.button`
-margin: 10% 0 ;
+  margin: 10% 0;
 `;
-
-

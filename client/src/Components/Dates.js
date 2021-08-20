@@ -9,6 +9,8 @@ const DatesContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
+  border: 1px solid #555;
+
 `;
 
 function Dates(props) {

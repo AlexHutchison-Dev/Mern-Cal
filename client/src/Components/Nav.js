@@ -8,6 +8,8 @@ import { DateContext } from "../Contexts/DateContext";
 const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  box-shadow: 2px 2px 5px #555;
+
 `;
 
 const NavBar = styled.nav`
@@ -17,22 +19,23 @@ const NavBar = styled.nav`
   width: 100%;
   height: 10%;
   margin: auto;
+  background-color: white;
   /* padding-top: 15px; */
 `;
 
 const Logo = styled.a`
   font-size: 3rem !important;
   margin-left: 20px;
-  color: white !important;
-  text-shadow: 2px 2px 2px #555;
+  color: #555;
 `;
 
 const NavBtn = styled.button`
   margin: 0 10px 0 10px;
+  background-color: white;
 `;
 
 const CurrentYear = styled.h1`
-  color: white;
+  color: #555;
 `;
 
 const AuthButtonContainer = styled.div`
@@ -56,7 +59,7 @@ function Nav() {
   }
   return (
     <NavContainer>
-      <NavBar className="fixed-top navbar-dark bg-primary">
+      <NavBar>
         {userContext.user.id ? (
           <MonthSelect />
         ) : (
