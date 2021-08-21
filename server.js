@@ -9,6 +9,7 @@ const path = require("path");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 8000;
+console.log(process.env.PORT);
 
 //Middleware
 
@@ -76,7 +77,7 @@ const EventControl = require("./controllers/EventController");
 const UserEventController = require("./controllers/UserEventController");
 
 app.get("*", (req, res) => {
-  console.log("req recieved");
+  console.log(" get req recieved");
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 

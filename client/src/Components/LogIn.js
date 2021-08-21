@@ -46,14 +46,14 @@ function LogIn() {
     console.log(`submitting`);
     if (validateCredentials(credentials)) {
       authenticateUser(credentials, (id) => {
-        if (id) {
+        if (id.success) {
           changeUserContext.logIn(id);
           fetchEvents(id, (events) => {
             changeUserContext.updateUserEvents(events, () => {
               setRedirect({ redirect: "/cal" });
             });
           });
-        } else setError(`Invalid username or password.`);
+        } else setError(`${id.message}`);
       });
     }
   }
