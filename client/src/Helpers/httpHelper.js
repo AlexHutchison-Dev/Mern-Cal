@@ -1,11 +1,9 @@
 import axios from "axios";
 
-var serverURL;
+var serverURL = "";
 
-if (process.env.NODE_ENV === "production") {
-  console.log('server url in production mode');
-  serverURL = "172.105.0.73:8000";
-} else {
+if (process.env.NODE_ENV !== "production") {
+  
   serverURL = "http://localhost:8000";
 }
 

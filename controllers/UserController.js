@@ -34,6 +34,7 @@ module.exports = {
 
     req.login(credentials, (err) => {
       if (err) {
+        console.log("login failed");
         res.json({ success: false, message: err.message });
         return;
       }
