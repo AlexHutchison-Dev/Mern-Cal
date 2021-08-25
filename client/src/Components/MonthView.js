@@ -10,15 +10,8 @@ import Dates from "./Dates";
 const CalendarContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 99vw;
-  height: 100%;
+  width: 100%;
   margin: 0.5vw;
-`;
-
-const CalendarWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 4px;
 `;
 
 function CalendarData() {
@@ -53,16 +46,14 @@ function CalendarData() {
     }
 
     return (
-      <CalendarContainer>
-        <CalendarWrapper>
+      <CalendarContainer className="calendar-container">
           <Weekdays />
           <Dates days={days} />
-        </CalendarWrapper>
       </CalendarContainer>
     );
   }
 
-  return <div>{makeDaysArray(dateContext.targetDate)}</div>;
+  return makeDaysArray(dateContext.targetDate);
 }
 
 export default CalendarData;

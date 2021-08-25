@@ -21,7 +21,7 @@ export function authenticateUser(credentials, callback) {
   axios
     .post(serverURL + "/user/login", credentials)
     .then((responce) => {
-      console.log(responce.data.idEvents);
+      console.log(responce.data.id);
       callback(responce.data.id);
     })
     .catch((err) => {

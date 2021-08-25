@@ -6,8 +6,11 @@ import styled from "styled-components";
 import MonthView from "./MonthView";
 
 const Container = styled.div`
+  display: flex;
   height: calc(100vh - 82px);
-  width: 100vw;
+  width: 100%;
+  align-items: center;
+  padding: 0 2%;
 `;
 //TODO location for ModalContext.Provider
 function Calendar() {
@@ -16,7 +19,7 @@ function Calendar() {
   useEffect(() => {}, [dateContext.targetDate]);
 
   return (
-    <Container>
+    <Container className="Calendar">
       <MonthView />
       <ModalBase />
     </Container>

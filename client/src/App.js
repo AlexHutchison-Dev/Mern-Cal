@@ -16,7 +16,7 @@ import Register from "./Components/Register";
 library.add(fab);
 
 const AppContainer = styled.div`
-  /* margin-top: 82px; */
+
 `;
 function App() {
   return (

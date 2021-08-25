@@ -12,6 +12,7 @@ const Form = styled.div`
   align-items: center;
   margin-top: 15vh;
 `;
+//TODO Add media quireies for mobile
 
 const Title = styled.h2`
   margin-bottom: 20px;
@@ -46,7 +47,9 @@ function LogIn() {
     console.log(`submitting`);
     if (validateCredentials(credentials)) {
       authenticateUser(credentials, (id) => {
-        if (id.success) {
+        console.log(`id recieved by login: ${id}`);
+        //TODO this needs to handle error so id not just id but message aswell
+        if (id) {
           changeUserContext.logIn(id);
           fetchEvents(id, (events) => {
             changeUserContext.updateUserEvents(events, () => {

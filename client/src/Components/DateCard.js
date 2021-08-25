@@ -4,7 +4,6 @@ import AddEvent from "./AddEvent";
 import Event from "./Event";
 import { DateContext } from "../Contexts/DateContext";
 import { UserContext } from "../Contexts/UserContext";
-import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
 const Day = styled.div`
   display: flex;
