@@ -38,9 +38,6 @@ function CreateEvent() {
   const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);
 
-  // Clears event data from context state on unmount
-  
-
   const [notes, setNotes] = useState("");
   const [title, setTitle] = useState("");
 

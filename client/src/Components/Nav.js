@@ -57,8 +57,8 @@ function Nav() {
     }
     history.push(event.target.name);
   }
-  return (
-    <NavContainer>
+    return (
+      <NavContainer className="NavBar">
       <NavBar>
         {userContext.user.id ? (
           <MonthSelect />

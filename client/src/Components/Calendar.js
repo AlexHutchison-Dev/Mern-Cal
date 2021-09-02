@@ -3,16 +3,17 @@ import ModalBase from "./Modals/ModalBase";
 import { DateContext } from "../Contexts/DateContext";
 import styled from "styled-components";
 
-import MonthView from "./MonthView";
+import DayView from "./DayView";
 
 const Container = styled.div`
   display: flex;
+  align-items: flex-start;
+  margin-top: 10%;
   height: calc(100vh - 82px);
   width: 100%;
-  align-items: center;
   padding: 0 2%;
 `;
-//TODO location for ModalContext.Provider
+
 function Calendar() {
   const [dateContext] = useContext(DateContext);
 
@@ -20,7 +21,7 @@ function Calendar() {
 
   return (
     <Container className="Calendar">
-      <MonthView />
+      <DayView />
       <ModalBase />
     </Container>
   );
