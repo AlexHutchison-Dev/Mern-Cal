@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { addEvent } from "../Helpers/httpHelper";
 import { ModalContext } from "../Contexts/ModalContext";
@@ -76,7 +76,7 @@ function CreateEvent() {
     changeUserContext.clearEventStore();
   }
 
-  
+
 
   return (
     <div>

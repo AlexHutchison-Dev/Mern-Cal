@@ -7,8 +7,8 @@ import DayView from "./DayView";
 
 const Container = styled.div`
   display: flex;
-  align-items: flex-start;
-  margin-top: 10%;
+  align-items: center;
+  // margin-top: 10%;
   height: calc(100vh - 82px);
   width: 100%;
   padding: 0 2%;
@@ -17,7 +17,7 @@ const Container = styled.div`
 function Calendar() {
   const [dateContext] = useContext(DateContext);
 
-  useEffect(() => {}, [dateContext.targetDate]);
+  useEffect(() => { }, [dateContext.targetDate]);
 
   return (
     <Container className="Calendar">

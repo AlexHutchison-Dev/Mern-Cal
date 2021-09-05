@@ -10,6 +10,7 @@ function CTA() {
     event.preventDefault();
     history.push("/register");
   }
+
   return (
     <section id="CTA">
       <CTAContainer className="container-fluid" >
