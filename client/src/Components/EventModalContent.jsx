@@ -51,8 +51,8 @@ function EventModalContent() {
   });
 
   function handleChange(event) {
-    const fields = { 
-      [event.target.name] : event.target.value
+    const fields = {
+      [event.target.name]: event.target.value,
     };
     console.log(fields);
     setEventFields((prevValue) => {
@@ -64,7 +64,7 @@ function EventModalContent() {
     //TODO
     console.log(`Saving changes to event, new Values: ${eventFields}`);
     console.log(userContext.eventStore._id);
-    console.log({...userContext.eventStore, ...eventFields})
+    console.log({ ...userContext.eventStore, ...eventFields });
     updateEvent(
       userContext.user.id,
 
@@ -72,7 +72,7 @@ function EventModalContent() {
       (responce) => {
         console.log(responce);
         if (responce.success) {
-          console.log("handling close")
+          console.log("handling close");
           handleClose();
         }
       }

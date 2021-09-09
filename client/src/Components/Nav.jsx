@@ -6,10 +6,12 @@ import { UserContext } from "../Contexts/UserContext";
 import { DateContext } from "../Contexts/DateContext";
 
 const NavContainer = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   box-shadow: 2px 2px 5px #555;
-
 `;
 
 const NavBar = styled.nav`
@@ -44,7 +46,7 @@ const AuthButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
-function Nav() {
+function Nav(props) {
   const history = useHistory();
   const [userContext, changeUserContext] = useContext(UserContext);
   const [dateContext] = useContext(DateContext);
@@ -57,8 +59,9 @@ function Nav() {
     }
     history.push(event.target.name);
   }
-    return (
-      <NavContainer className="NavBar">
+
+  return (
+    <NavContainer className="NavBar">
       <NavBar>
         {userContext.user.id ? (
           <MonthSelect />
@@ -76,7 +79,7 @@ function Nav() {
           <CurrentYear>{dateContext.targetDate.$y}</CurrentYear>
         )}
         <AuthButtonContainer>
-          {!userContext.user.id && (
+          {!userContext.user.id ? (
             <NavBtn
               type="button"
               name="/register"
@@ -84,6 +87,10 @@ function Nav() {
               onClick={handleButtonBodyClick}
             >
               Sign Up
+            </NavBtn>
+          ) : (
+            <NavBtn className="btn btn-light" onClick={props.toggleDayView}>
+              {props.dayView ? "Month View" : "Day View"}
             </NavBtn>
           )}
 
@@ -97,14 +104,16 @@ function Nav() {
               Log In
             </NavBtn>
           ) : (
-            <NavBtn
-              type="button"
-              className="btn btn-light"
-              name="/"
-              onClick={handleButtonBodyClick}
-            >
-              Log Out
-            </NavBtn>
+            <div>
+              <NavBtn
+                type="button"
+                className="btn btn-light"
+                name="/"
+                onClick={handleButtonBodyClick}
+              >
+                Log Out
+              </NavBtn>
+            </div>
           )}
         </AuthButtonContainer>
       </NavBar>

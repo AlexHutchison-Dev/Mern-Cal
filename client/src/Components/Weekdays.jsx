@@ -19,24 +19,23 @@ const DayLabels = styled.div`
   color: #555;
   height: 50px;
   align-items: center;
- 
 `;
 
 const LabelText = styled.h3`
-   @media(max-width: 1200px) {
+  @media (max-width: 1200px) {
     font-size: 1.25rem;
   }
-   @media(max-width: 1000px) {
+  @media (max-width: 1000px) {
     font-size: 1rem;
   }
-   @media(max-width: 600px) {
+  @media (max-width: 600px) {
     font-size: 0.8rem;
   }
 `;
 
 function Weekdays(props) {
   return (
-    <WeekdaysContainer>
+    <WeekdaysContainer className="Weekdays" id="weekdays">
       {getDay("list").map((weekday, index) => {
         return (
           <DayLabels key={Math.random()}>
@@ -47,5 +46,4 @@ function Weekdays(props) {
     </WeekdaysContainer>
   );
 }
-
 export default Weekdays;

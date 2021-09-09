@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { ModalContext } from "../Contexts/ModalContext";
-import {useEvent} from "./hooks/EventHook";
+import { useEvent } from "./hooks/EventHook";
 
 const AddEventBtn = styled.button`
   /* display: flex; */
@@ -17,7 +17,7 @@ function AddEvent(props) {
   const [, changeModalContext] = useContext(ModalContext);
   const [, handleEventDateChange, ,] = useEvent();
 
-  console.log(props.eventDate)
+  console.log(props.eventDate);
   function handleClick() {
     handleEventDateChange(props.eventDate);
     changeModalContext.toggleVisibility();

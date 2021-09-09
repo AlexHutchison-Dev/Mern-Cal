@@ -9,21 +9,19 @@ const Day = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: calc(100% / 7 - 0px);
-  border: 1px solid #aaa;
+  height: calc(100% / ${(props) => props.weeks});
+  border: 1px solid
+    ${(props) => (props.today ? "rgba(43, 223, 43, 1)" : "#aaa")};
   color: black;
-  height: 115px;
   align-items: top;
-  justify-content: space-between;
-`;
-
-const Today = styled.div`
-  height: 100%;
-  width: 100%;
-  border: 1px solid rgba(43, 223, 43, 1);
+  justify-content: space - between;
+  background-color: ${(props) =>
+    props.null && "rgba(108, 178, 213, 0.15) !important"};
 `;
 
 const H4 = styled.h4`
   margin: 1%;
+  font-size: 1.5rem;
 `;
 
 const DateBar = styled.div`
@@ -41,10 +39,11 @@ const Content = styled.div`
 `;
 
 function DateCard(props) {
+  console.log(`props.weeks in DateCard: ${props.weeks}`);
   //TODO replace this state with css hover visibility due to lag
-  
+
   const mobile = navigator.MaxTouchPoints > 0 ? true : false;
-  
+
   const [hover, setHover] = useState(mobile);
 
   const [globalState] = useContext(DateContext);
@@ -98,24 +97,15 @@ function DateCard(props) {
     </Content>
   );
 
-  if (props.day === globalState.targetDate.$D) {
-    return (
-      //TODO need to look at event box styling
-      <Day>
-        <Today
-          onMouseEnter={toggleHover}
-          onMouseLeave={toggleHover}
-          key={props.day}
-        >
-          {dateInfo}
-        </Today>
-      </Day>
-    );
-  }
-
   return (
-    <Day onMouseEnter={toggleHover} onMouseLeave={toggleHover} key={props.day}>
-      {dateInfo}
+    <Day
+      onMouseEnter={toggleHover}
+      onMouseLeave={toggleHover}
+      weeks={props.weeks}
+      today={props.day === globalState.targetDate.$D ? true : false}
+      null={props.null}
+    >
+      {!props.null && dateInfo}
     </Day>
   );
 }

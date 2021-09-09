@@ -28,13 +28,15 @@ const DateH2 = styled.h2`
 `;
 function DateString(props) {
   const [dateContext] = useContext(DateContext);
-  
+
   var day = null;
-  var date = null; 
+  var date = null;
   var month = null;
-  var year = null; 
-  const dateToFetch = `${dateContext.targetDate.$y}-${dateContext.targetDate.$M + 1}-${props.date ? props.date : dateContext.targetDate.$D}`
-  
+  var year = null;
+  const dateToFetch = `${dateContext.targetDate.$y}-${
+    dateContext.targetDate.$M + 1
+  }-${props.date ? props.date : dateContext.targetDate.$D}`;
+
   const dateString = fetchDate(dateToFetch, buildDateString);
 
   function fetchDate(date, callback) {
@@ -48,10 +50,8 @@ function DateString(props) {
     date = responce.$D;
     month = getMonth(responce.$M);
     year = responce.$y;
-    
 
-    return { 1: `${day} ${date}`,   2:` ${month} ${year}` };
-
+    return { 1: `${day} ${date}`, 2: ` ${month} ${year}` };
   }
 
   function getOrdinalSuffix(date) {
@@ -69,13 +69,22 @@ function DateString(props) {
   }
 
   return (
-      <DateStringWrapper className="DateString">
-        {props.heading === "subheading" ?
-          <DateH2Subeading>{dateString[1]}<sup>{getOrdinalSuffix(date)}</sup>{dateString[2]}</DateH2Subeading> :
-          <DateH2>{dateString[1]}<sup>{getOrdinalSuffix(date)}</sup>{dateString[2]}</DateH2>
-        }
-      </DateStringWrapper>
-  )
+    <DateStringWrapper className="DateString">
+      {props.heading === "subheading" ? (
+        <DateH2Subeading>
+          {dateString[1]}
+          <sup>{getOrdinalSuffix(date)}</sup>
+          {dateString[2]}
+        </DateH2Subeading>
+      ) : (
+        <DateH2>
+          {dateString[1]}
+          <sup>{getOrdinalSuffix(date)}</sup>
+          {dateString[2]}
+        </DateH2>
+      )}
+    </DateStringWrapper>
+  );
 }
 
 export default DateString;

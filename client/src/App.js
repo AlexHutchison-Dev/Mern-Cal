@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContextProvider } from "./Contexts/UserContext";
 import { ModalContextProvider } from "./Contexts/ModalContext";
@@ -15,17 +15,20 @@ import LogIn from "./Components/LogIn";
 import Register from "./Components/Register";
 library.add(fab);
 
-const AppContainer = styled.div`
-
-`;
+const AppContainer = styled.div``;
 function App() {
+  const [dayView, setDayView] = useState(false);
+
+  function toggleDayView() {
+    setDayView(!dayView);
+  }
   return (
     <Router>
       <ModalContextProvider>
         <UserContextProvider>
           <DateProvider>
             <AppContainer className="App">
-              <Nav />
+              <Nav toggleDayView={toggleDayView} dayView={dayView} />
               {/* Router Switch */}
               <Switch>
                 <Route exact path="/">
@@ -38,7 +41,7 @@ function App() {
                   <Register />
                 </Route>
                 <Route path="/cal">
-                  <Calendar />
+                  <Calendar dayView={dayView} />
                 </Route>
               </Switch>
             </AppContainer>

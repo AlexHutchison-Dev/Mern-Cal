@@ -5,7 +5,6 @@ var serverURL = "";
 console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV !== "production") {
-  
   serverURL = "http://localhost:8000";
 }
 

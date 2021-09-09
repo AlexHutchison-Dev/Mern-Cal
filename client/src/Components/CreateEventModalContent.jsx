@@ -76,8 +76,6 @@ function CreateEvent() {
     changeUserContext.clearEventStore();
   }
 
-
-
   return (
     <div>
       <CreateEventContainer>
@@ -86,9 +84,7 @@ function CreateEvent() {
         </div>
         <div className="row">
           <DateString
-            date={
-              userContext.eventStore.date
-            }
+            date={userContext.eventStore.date}
             heading="subheading"
           ></DateString>
         </div>

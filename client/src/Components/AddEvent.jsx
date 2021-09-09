@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { ModalContext } from "../Contexts/ModalContext";
 import { UserContext } from "../Contexts/UserContext";
 
-
 const AddEventBtn = styled.button`
   font-size: 1.1em;
   font-weight: bold;
@@ -18,7 +17,7 @@ function AddEvent(props) {
   const [, changeModalContext] = useContext(ModalContext);
 
   function handleClick() {
-    changeUserContext.eventStore({...props.eventDate}, () => {
+    changeUserContext.eventStore({ ...props.eventDate }, () => {
       changeModalContext.modalType("addevent");
       changeModalContext.toggleVisibility();
     });
