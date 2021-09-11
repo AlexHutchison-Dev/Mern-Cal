@@ -48,7 +48,6 @@ function DayView() {
   if (currentHour === 0) currentHour = "00";
 
   function centerCurrentHourInViewport(hour) {
-    console.log(hour);
     document
       .getElementById(hour.toString())
       .scrollIntoView({ block: "center" });
@@ -62,8 +61,6 @@ function DayView() {
     const day = dateContext.focusedDay;
     const month = dateContext.targetDate.$M;
     const year = dateContext.targetDate.$y;
-    // TODO replace this with actual hour once model and controller are updated to store a time
-
     if (item.day === day && item.month === month && item.year === year) {
       return true;
     } else return null;

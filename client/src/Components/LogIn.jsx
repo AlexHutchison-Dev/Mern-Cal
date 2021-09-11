@@ -3,22 +3,38 @@ import { Redirect } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
 import { authenticateUser, fetchEvents } from "../Helpers/httpHelper.js";
 import styled from "styled-components";
-import LogInButton from "./form-inputs/LogInButton";
 
 const Form = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 15vh;
+  margin-top: calc(10vh + 82px);
 `;
 //TODO Add media quireies for mobile
 
-const Title = styled.h2`
+const Title = styled.h1`
   margin-bottom: 20px;
+  @media screen and (max-width: 992px) {
+    font-size: 4rem;
+  }
 `;
-const Input = styled.div`
+const Field = styled.div`
   padding: 15px;
+  }
+`;
+const Input = styled.input`
+  @media screen and (max-width: 992px) {
+    font-size: 2rem;
+`;
+const LogInBtn = styled.button`
+  display: flex;
+  align-self: center;
+  margin: 20px;
+  @media screen and (max-width: 992px;) {
+    font-size: 2rem;
+    color: red !important;
+  }
 `;
 
 function LogIn() {
@@ -41,6 +57,7 @@ function LogIn() {
       return { ...prevValue, [name]: value };
     });
   }
+
   function handleSubmit(event) {
     event.preventDefault();
     console.log(`submitting`);
@@ -86,8 +103,8 @@ function LogIn() {
           {error && <div className="alert alert-danger">{error}</div>}
           <Title className="title">Log In</Title>
           <form>
-            <Input>
-              <input
+            <Field>
+              <Input
                 name="username"
                 key={1234}
                 type="text"
@@ -96,10 +113,10 @@ function LogIn() {
                 className="Email form-control"
                 placeholder="email"
                 autoFocus={true}
-              ></input>
-            </Input>
-            <Input>
-              <input
+              ></Input>
+            </Field>
+            <Field>
+              <Input
                 name="password"
                 type="password"
                 key={4321}
@@ -108,10 +125,16 @@ function LogIn() {
                 className="Password form-control"
                 placeholder="password"
                 autoComplete="off"
-              ></input>
-            </Input>
+              ></Input>
+            </Field>
           </form>
-          <LogInButton handleSubmit={handleSubmit}></LogInButton>
+          <LogInBtn
+            type="button"
+            className="btn btn-lg btn-primary"
+            handleSubmit={handleSubmit}
+          >
+            Log In
+          </LogInBtn>
         </Form>
       </div>
     );

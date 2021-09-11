@@ -46,31 +46,29 @@ function CreateEvent() {
 
   function handleChange(event) {
     setNote({ ...note, [event.target.name]: event.target.value });
-    console.log(`note: ${JSON.stringify(note)}`);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     if (validatNote(note)) {
-      console.log(JSON.stringify(userContext.eventStore));
-
       const newEvent = {
         user: userContext.user.id,
-        //inserts date, month year from context state
+        //inserts date, month year from userContext
         ...userContext.eventStore,
         ...note,
       };
-      console.log(`userEvent for submittal ${JSON.stringify(newEvent)}`);
       addEvent(newEvent, (events) => {
         changeUserContext.updateUserEvents(events, handleClose);
       });
     }
   }
+
   function handleKeyPress(event) {
     if (event.key === "Enter") {
       handleSubmit(event);
     }
   }
+
   function handleClose(event) {
     if (event) {
       event.preventDefault();
@@ -101,18 +99,22 @@ function CreateEvent() {
     <div onKeyPress={handleKeyPress}>
       <CreateEventContainer>
         {error && <div className="alert alert-danger">{error}</div>}
+
         <div className="row">
           <h1>New Event</h1>
         </div>
+
         <div className="row">
           <DateString
             date={userContext.eventStore.date}
             heading="subheading"
           ></DateString>
         </div>
+
         <div className="row">
           <label>Title</label>
         </div>
+
         <div className="row">
           <TextInput
             name="title"
@@ -123,6 +125,7 @@ function CreateEvent() {
             value={note.title ? note.title : ""}
           />
         </div>
+
         <div className="row">
           <label>Notes</label>
         </div>
@@ -137,9 +140,11 @@ function CreateEvent() {
             value={note.notes ? note.notes : ""}
           />
         </div>
+
         <div className="row">
           <label>Time</label>
         </div>
+
         <div className="row">
           <label>Hour</label>
           <NumberInput
@@ -163,6 +168,7 @@ function CreateEvent() {
             value={note.mins ? note.mins : ""}
           />
         </div>
+
         <div className="row">
           <PageBtn>
             <button
