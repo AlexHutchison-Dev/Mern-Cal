@@ -6,6 +6,7 @@ export const DateProvider = (props) => {
   const [dateContext, setDateContext] = useState({
     targetDate: "",
     monthOffset: 0,
+    focusedDay: null,
   });
   // Update targetDate state when month offset changed
   useEffect(() => {
@@ -17,6 +18,11 @@ export const DateProvider = (props) => {
     });
   }, [dateContext.monthOffset]);
 
+  function setDay(day) {
+    setDateContext((prevValue) => {
+      return { ...prevValue, focusedDay: day };
+    });
+  }
   function changeMonthOffset(modifier, callback) {
     if (modifier === 0) {
       setDateContext((prevValue) => {
@@ -36,7 +42,7 @@ export const DateProvider = (props) => {
   }
 
   return (
-    <DateContext.Provider value={[dateContext, changeMonthOffset]}>
+    <DateContext.Provider value={[dateContext, changeMonthOffset, setDay]}>
       {props.children}
     </DateContext.Provider>
   );

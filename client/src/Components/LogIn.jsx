@@ -41,7 +41,6 @@ function LogIn() {
       return { ...prevValue, [name]: value };
     });
   }
-
   function handleSubmit(event) {
     event.preventDefault();
     console.log(`submitting`);

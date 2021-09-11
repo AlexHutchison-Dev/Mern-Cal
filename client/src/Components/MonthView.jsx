@@ -12,7 +12,7 @@ const CalendarContainer = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
-  max-height: 120vw;
+  max-height: 110vw;
   padding-bottom: auto;
   padding-top: 5%;
   height: 90%;
@@ -50,7 +50,6 @@ function CalendarData() {
     }
 
     const weeksToDisplay = Math.floor((days.length + 1) / 7);
-    console.log(weeksToDisplay);
 
     return (
       <CalendarContainer className="calendar-container">

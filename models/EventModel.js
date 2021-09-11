@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
-  
   day: {
     type: Number,
     required: true,
@@ -21,6 +20,15 @@ const eventSchema = new Schema({
     required: true,
   },
   notes: String,
+  hour: {
+    type: Number,
+    required: true,
+  },
+  mins: {
+    type: Number,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.model("Event", eventSchema);
+

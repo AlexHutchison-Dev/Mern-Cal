@@ -58,8 +58,15 @@ function DayView() {
     return <Redirect to={"/login"} />;
   }
 
-  userContext.user.events.filter((item) => {
-    // console.log(item);
+  var events = userContext.user.events.filter((item) => {
+    const day = dateContext.focusedDay;
+    const month = dateContext.targetDate.$M;
+    const year = dateContext.targetDate.$y;
+    // TODO replace this with actual hour once model and controller are updated to store a time
+
+    if (item.day === day && item.month === month && item.year === year) {
+      return true;
+    } else return null;
   });
 
   return (
@@ -70,7 +77,9 @@ function DayView() {
           hour={hour}
           currentHour={currentHour}
           centerCurrentHourInViewport={centerCurrentHourInViewport}
-        />
+          // TODO when hours added to events back end filter by hour;
+          events={events}
+        ></Hour>
       ))}
     </DayContainer>
   );

@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import DateCardNull from "./DateCardNull";
 import DateCard from "./DateCard";
-import Weekdays from "./Weekdays";
 
 const DatesContainer = styled.div`
   display: flex;
@@ -15,7 +13,6 @@ const DatesContainer = styled.div`
 `;
 
 function Dates(props) {
-  console.log(`props.weeks in DAtes: ${props.weeks}`);
   return (
     <DatesContainer>
       {props.days.map((day, index) => {

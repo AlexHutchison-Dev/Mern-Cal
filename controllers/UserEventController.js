@@ -29,17 +29,20 @@ module.exports = {
   addevent: (req, res) => {
     User.authenticate("local")(req, res, () => {
       find(req.body.user, (docs) => {
-        console.log(req.body);
-        const { date, month, year, title, notes } = req.body;
+        // TODO for some reason the hours and mins are not adding to the document sent to the database
+        console.log(`addevent req.body: ${JSON.stringify(req.body)}`);
+        const { date, month, year, title, notes, hour, mins } = req.body;
         const newEvent = new Event({
           day: date,
           month,
           year,
           title,
           notes,
+          hour,
+          mins,
         });
 
-        console.log(newEvent);
+        console.log(`addevent newEvent: ${newEvent}`);
 
         const userEvent = docs[0];
 

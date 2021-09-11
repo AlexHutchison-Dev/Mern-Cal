@@ -15,8 +15,7 @@ const Day = styled.div`
   color: black;
   align-items: top;
   justify-content: space - between;
-  background-color: ${(props) =>
-    props.null && "rgba(108, 178, 213, 0.15) !important"};
+  background-color: ${(props) => props.null && "rgba(108, 178, 213, 0.15) "};
 `;
 
 const H4 = styled.h4`
@@ -39,14 +38,13 @@ const Content = styled.div`
 `;
 
 function DateCard(props) {
-  console.log(`props.weeks in DateCard: ${props.weeks}`);
   //TODO replace this state with css hover visibility due to lag
 
   const mobile = navigator.MaxTouchPoints > 0 ? true : false;
 
   const [hover, setHover] = useState(mobile);
 
-  const [globalState] = useContext(DateContext);
+  const [dateContext, , setDay] = useContext(DateContext);
   const [userContext] = useContext(UserContext);
   var todaysEvents = null;
 
@@ -54,8 +52,8 @@ function DateCard(props) {
 
   const todaysDate = {
     date: props.day,
-    month: globalState.targetDate.$M,
-    year: globalState.targetDate.$y,
+    month: dateContext.targetDate.$M,
+    year: dateContext.targetDate.$y,
   };
 
   function toggleHover() {
@@ -64,12 +62,19 @@ function DateCard(props) {
     }
   }
 
+  function handleClick(event) {
+    event.preventDefault();
+    setDay(props.day);
+    console.log(
+      `setDay to: ${dateContext.focusedDay}, props.day: ${props.day}`
+    );
+  }
   if (userContext.user.events) {
     todaysEvents = userContext.user.events.filter(
       (event) =>
         event.day === todaysDate.date &&
-        event.month === globalState.targetDate.$M &&
-        event.year === globalState.targetDate.$y
+        event.month === dateContext.targetDate.$M &&
+        event.year === dateContext.targetDate.$y
     );
   }
 
@@ -96,14 +101,14 @@ function DateCard(props) {
       </EventContainer>
     </Content>
   );
-
   return (
     <Day
       onMouseEnter={toggleHover}
       onMouseLeave={toggleHover}
       weeks={props.weeks}
-      today={props.day === globalState.targetDate.$D ? true : false}
+      today={props.day === dateContext.targetDate.$D ? true : false}
       null={props.null}
+      onClick={handleClick}
     >
       {!props.null && dateInfo}
     </Day>
