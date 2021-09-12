@@ -40,7 +40,7 @@ const Content = styled.div`
 function DateCard(props) {
   //TODO replace this state with css hover visibility due to lag
 
-  const mobile = navigator.MaxTouchPoints > 0 ? true : false;
+  const mobile = window.orientation > -1;
 
   const [hover, setHover] = useState(mobile);
 
