@@ -39,17 +39,14 @@ const Content = styled.div`
 
 function DateCard(props) {
   //TODO replace this state with css hover visibility due to lag
-
-  const mobile = window.orientation > -1;
-
+  var mobile = "";
   const [hover, setHover] = useState(mobile);
-
   const [dateContext, , setDay] = useContext(DateContext);
   const [userContext] = useContext(UserContext);
   var todaysEvents = null;
 
-  alert(`mobile: ${mobile}`);
-  useEffect(() => {}, [mobile]);
+  detectMobile();
+  useEffect(() => {}, []);
 
   const todaysDate = {
     date: props.day,
@@ -79,10 +76,26 @@ function DateCard(props) {
     );
   }
 
+  function detectMobile() {
+    if (
+      navigator.userAgent.match(/Android/i) ||
+      navigator.userAgent.match(/webOS/i) ||
+      navigator.userAgent.match(/iPhone/i) ||
+      navigator.userAgent.match(/iPad/i) ||
+      navigator.userAgent.match(/iPod/i) ||
+      navigator.userAgent.match(/BlackBerry/i) ||
+      navigator.userAgent.match(/Windows Phone/i)
+    ) {
+      mobile = true;
+    } else {
+      mobile = false;
+    }
+  }
   const dateInfo = (
     <Content>
       <DateBar>
         <H4>{props.day}</H4>
+        <p>mobile: {mobile.toString()}</p>
         {hover ? <AddEvent eventDate={todaysDate} /> : ""}
       </DateBar>
 
