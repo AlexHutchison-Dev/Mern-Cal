@@ -48,7 +48,8 @@ function DateCard(props) {
   const [userContext] = useContext(UserContext);
   var todaysEvents = null;
 
-  useEffect(() => {}, []);
+  alert(`mobile: ${mobile}`);
+  useEffect(() => {}, [mobile]);
 
   const todaysDate = {
     date: props.day,

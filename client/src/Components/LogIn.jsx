@@ -131,7 +131,7 @@ function LogIn() {
           <LogInBtn
             type="button"
             className="btn btn-lg btn-primary"
-            handleSubmit={handleSubmit}
+            onClick={handleSubmit}
           >
             Log In
           </LogInBtn>
