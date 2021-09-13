@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import MonthSelect from "./MonthSelect";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
@@ -50,6 +50,8 @@ function Nav(props) {
   const history = useHistory();
   const [userContext, changeUserContext] = useContext(UserContext);
   const [dateContext] = useContext(DateContext);
+
+  useEffect(() => {}, [userContext.user.id]);
 
   function handleButtonBodyClick(event) {
     console.log("handleButtonBodyClick called " + event.target.name);

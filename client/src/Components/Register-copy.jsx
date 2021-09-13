@@ -1,40 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../Contexts/UserContext";
-import { registerUser, fetchEvents } from "../Helpers/httpHelper";
 import styled from "styled-components";
+import { registerUser, fetchEvents } from "../Helpers/httpHelper";
+import RegisterButton from "./form-inputs/RegisterButton";
 
 const Form = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: calc(10vh + 82px);
+  margin-top: 15vh;
 `;
-//TODO Add media quireies for mobile
-
-const Title = styled.h1`
+const Title = styled.h2`
   margin-bottom: 20px;
-  @media screen and (max-width: 992px) {
-    font-size: 4rem;
-  }
-`;
-const Field = styled.div`
-  padding: 15px;
-  }
 `;
 const Input = styled.input`
-  @media screen and (max-width: 992px) {
-    font-size: 2rem;
-`;
-const LogInBtn = styled.button`
-  display: flex;
-  align-self: center;
-  margin: 20px;
-  @media screen and (max-width: 992px;) {
-    font-size: 2rem;
-    color: red !important;
-  }
+  margin: 15px;
 `;
 
 function Register() {
@@ -46,7 +28,6 @@ function Register() {
   const [redirect, setRedirect] = useState({ redirect: null });
   const [error, setError] = useState(null);
 
-  //Draw error banner with warnings about credential validation
   useEffect(() => {}, [error]);
 
   function handleChange(event) {
@@ -100,45 +81,36 @@ function Register() {
   } else {
     return (
       <div className="container-fluid" onKeyPress={handleKeyPress}>
-        <Form className="log-in form">
+        <Form className="register form">
           {error && <div className="alert alert-danger">{error}</div>}
-          <Title className="title">Log In</Title>
+          <Title className="title">Register</Title>
           <form>
-            <Field>
-              <Input
-                name="username"
-                key={1234}
-                type="text"
-                onChange={handleChange}
-                value={credentials.email}
-                className="Email form-control"
-                placeholder="email"
-                autoFocus={true}
-              ></Input>
-            </Field>
-            <Field>
-              <Input
-                name="password"
-                type="password"
-                key={4321}
-                onChange={handleChange}
-                value={credentials.password}
-                className="Password form-control"
-                placeholder="password"
-                autoComplete="off"
-              ></Input>
-            </Field>
+            <Input
+              name="username"
+              type="text"
+              onChange={handleChange}
+              value={credentials.email}
+              className="Email form-control"
+              placeholder="email"
+              autoFocus={true}
+            ></Input>
+
+            <Input
+              name="password"
+              type="password"
+              onChange={handleChange}
+              value={credentials.password}
+              className="Password form-control"
+              placeholder="password"
+              autoComplete="off"
+            ></Input>
           </form>
-          <LogInBtn
-            type="button"
-            className="btn btn-lg btn-primary"
-            onClick={handleSubmit}
-          >
-            Log In
-          </LogInBtn>
+
+          <RegisterButton handleSubmit={handleSubmit}></RegisterButton>
         </Form>
       </div>
     );
   }
 }
+
 export default Register;
