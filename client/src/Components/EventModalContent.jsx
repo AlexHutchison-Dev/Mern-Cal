@@ -1,13 +1,11 @@
-import React, { useContext, useState } from "react";
-import { updateEvent, fetchEvents } from "../Helpers/httpHelper";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { deleteEvent } from "../Helpers/httpHelper";
+import { updateEvent, fetchEvents, deleteEvent } from "../Helpers/httpHelper";
 import { ModalContext } from "../Contexts/ModalContext";
 import { UserContext } from "../Contexts/UserContext";
-
 import DateString from "./DateString";
 
-const CreateEventContainer = styled.div`
+const EventContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,69 +22,67 @@ const CreateEventContainer = styled.div`
   background: white;
 `;
 
-const PageBtn = styled.div`
-  margin: 10px;
-`;
-
-const Title = styled.h1`
-  margin-bottom: 30px;
-`;
-
-const DataField = styled.input`
+const TextInput = styled.input`
   margin: 10px;
   width: 30vw;
   border: 1px solid #555;
   border-radius: 3px;
   padding: 5px;
 `;
-function EventModalContent() {
-  //TODO add edditing functionality
 
+const NumberInput = styled.input`
+  margin: 10px;
+  width: 50px;
+`;
+const PageBtn = styled.div`
+  margin: 10px;
+`;
+
+function CreateEvent() {
   const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);
+  const [error, setError] = useState("");
   const [edited, setEdited] = useState(false);
   const [eventFields, setEventFields] = useState({
     title: userContext.eventStore.title,
     notes: userContext.eventStore.notes,
+    hour: userContext.eventStore.hour,
+    mins: userContext.eventStore.mins,
   });
 
   function handleChange(event) {
-    const fields = {
-      [event.target.name]: event.target.value,
-    };
-    console.log(fields);
+    console.log(`event.target: ${event.target.name} ${event.target.value}`);
+    const changes = { [event.target.name]: event.target.value };
     setEventFields((prevValue) => {
-      return { ...prevValue, ...fields };
+      return { ...prevValue, ...changes };
     });
     testForEdits();
   }
+
   function saveChanges() {
-    //TODO
     console.log(`Saving changes to event, new Values: ${eventFields}`);
     console.log(userContext.eventStore._id);
     console.log({ ...userContext.eventStore, ...eventFields });
-    updateEvent(
-      userContext.user.id,
 
-      { ...userContext.eventStore, ...eventFields },
-      (responce) => {
-        console.log(responce);
-        if (responce.success) {
-          console.log("handling close");
-          handleClose();
+    if (validatNote(eventFields)) {
+      updateEvent(
+        userContext.user.id,
+        { ...userContext.eventStore, ...eventFields },
+        (responce) => {
+          console.log(responce);
+          if (responce.success) {
+            console.log("handling close");
+            handleClose();
+          }
         }
-      }
-    );
+      );
+    }
   }
 
-  function testForEdits() {
-    if (
-      eventFields.title !== userContext.eventStore.title ||
-      eventFields.notes !== userContext.eventStore.notes
-    ) {
-      setEdited(true);
-      console.log("edited");
-    } else setEdited(true);
+  function handleKeyPress(event) {
+    if (event.key === "Enter") {
+      saveChanges(event);
+    }
   }
 
   function handleClose(event) {
@@ -98,6 +94,24 @@ function EventModalContent() {
       changeModalContext.restoreDefaultState();
       changeUserContext.clearEventStore();
     });
+
+    setError("");
+  }
+
+  function validatNote(note) {
+    if (!note.title) {
+      setError("Please Enter valid title");
+      return false;
+    }
+    if (!note.hour) {
+      setError("Please Enter valid hour");
+      return false;
+    }
+    if (!note.mins) {
+      setError("Please Enter valid mins");
+      return false;
+    }
+    return true;
   }
 
   function handleDeleteClick() {
@@ -110,47 +124,89 @@ function EventModalContent() {
     });
   }
 
+  function testForEdits() {
+    if (
+      eventFields.title !== userContext.eventStore.title ||
+      eventFields.notes !== userContext.eventStore.notes
+    ) {
+      setEdited(true);
+      console.log("edited");
+    } else setEdited(true);
+  }
+
   return (
-    <div>
-      <CreateEventContainer>
-        <Title>Event</Title>
+    <div onKeyPress={handleKeyPress}>
+      <EventContainer>
+        {error && <div className="alert alert-danger">{error}</div>}
+
+        <div className="row">
+          <h1>New Event</h1>
+        </div>
+
         <div className="row">
           <DateString
-            date={userContext.eventStore.day}
+            date={userContext.eventStore.date}
             heading="subheading"
           ></DateString>
         </div>
+
         <div className="row">
           <label>Title</label>
         </div>
 
-        {/* Title Field */}
-
         <div className="row">
-          <DataField
+          <TextInput
             name="title"
-            placeholder="Title..."
-            defaultValue={eventFields.title}
+            type="text"
+            placeholder="Title"
+            autoFocus={true}
             onChange={handleChange}
-          ></DataField>
+            value={eventFields.title ? eventFields.title : ""}
+          />
         </div>
-
-        {/* Notes Field */}
 
         <div className="row">
           <label>Notes</label>
         </div>
 
         <div className="row">
-          <DataField
+          <TextInput
             name="notes"
-            placeholder="Notes..."
-            defaultValue={eventFields.notes}
+            type="textarea"
+            rows={5}
+            placeholder="Notes"
             onChange={handleChange}
-          ></DataField>
+            value={eventFields.notes ? eventFields.notes : ""}
+          />
         </div>
 
-        {/* Controls */}
+        <div className="row">
+          <label>Time</label>
+        </div>
+
+        <div className="row">
+          <label>Hour</label>
+          <NumberInput
+            type="number"
+            name="hour"
+            min="00"
+            max="23"
+            placeholder="00"
+            onChange={handleChange}
+            value={eventFields.hour ? eventFields.hour : ""}
+          />
+          <label>Mins</label>
+          <NumberInput
+            type="number"
+            name="mins"
+            min="00"
+            max="59"
+            step="15"
+            placeholder="00"
+            onChange={handleChange}
+            value={eventFields.mins ? eventFields.mins : ""}
+          />
+        </div>
 
         <div className="row">
           <PageBtn>
@@ -162,6 +218,7 @@ function EventModalContent() {
               Delete
             </button>
           </PageBtn>
+
           <PageBtn>
             <button
               type="button"
@@ -171,21 +228,20 @@ function EventModalContent() {
               Close
             </button>
           </PageBtn>
-
-          <PageBtn>
-            <button
-              type="button"
-              className="btn btn-success"
-              onClick={saveChanges}
-              disabled={!edited}
-            >
-              Save Changes
-            </button>
-          </PageBtn>
         </div>
-      </CreateEventContainer>
+        <PageBtn>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={saveChanges}
+            disabled={!edited}
+          >
+            Save Changes
+          </button>
+        </PageBtn>
+      </EventContainer>
     </div>
   );
 }
 
-export default EventModalContent;
+export default CreateEvent;
