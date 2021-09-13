@@ -51,7 +51,6 @@ function CreateEvent() {
   });
 
   function handleChange(event) {
-    console.log(`event.target: ${event.target.name} ${event.target.value}`);
     const changes = { [event.target.name]: event.target.value };
     setEventFields((prevValue) => {
       return { ...prevValue, ...changes };
@@ -60,18 +59,12 @@ function CreateEvent() {
   }
 
   function saveChanges() {
-    console.log(`Saving changes to event, new Values: ${eventFields}`);
-    console.log(userContext.eventStore._id);
-    console.log({ ...userContext.eventStore, ...eventFields });
-
     if (validatNote(eventFields)) {
       updateEvent(
         userContext.user.id,
         { ...userContext.eventStore, ...eventFields },
         (responce) => {
-          console.log(responce);
           if (responce.success) {
-            console.log("handling close");
             handleClose();
           }
         }
@@ -115,7 +108,6 @@ function CreateEvent() {
   }
 
   function handleDeleteClick() {
-    console.log("delete request");
     deleteEvent(userContext.user.id, userContext.eventStore._id, (responce) => {
       if (responce.data.success) {
         changeUserContext.updateUserEvents(responce.data.events);
@@ -130,7 +122,6 @@ function CreateEvent() {
       eventFields.notes !== userContext.eventStore.notes
     ) {
       setEdited(true);
-      console.log("edited");
     } else setEdited(true);
   }
 
