@@ -50,6 +50,7 @@ function CalendarData() {
     }
 
     const weeksToDisplay = Math.floor((days.length + 1) / 7);
+    console.log(weeksToDisplay);
 
     return (
       <CalendarContainer className="calendar-container">

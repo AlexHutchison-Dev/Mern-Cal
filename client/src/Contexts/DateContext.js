@@ -19,6 +19,7 @@ export const DateProvider = (props) => {
   }, [dateContext.monthOffset]);
 
   function setDay(day) {
+    console.log(`setDay day argument: ${day}`);
     setDateContext((prevValue) => {
       return { ...prevValue, focusedDay: day };
     });

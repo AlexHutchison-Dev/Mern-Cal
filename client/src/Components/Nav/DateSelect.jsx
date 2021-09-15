@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { DateContext } from "../Contexts/DateContext";
-import { getMonth } from "../Helpers/dateHelpers";
+import { DateContext } from "../../Contexts/DateContext";
+import { getMonth, getOrdinalSuffix } from "../../Helpers/dateHelpers";
 
 const MonthSelectContainer = styled.div`
   display: flex;
@@ -27,22 +27,35 @@ const CurrentMonth = styled.h3`
   display: flex;
   width: 175px;
   color: #555;
+  margin: 0 5px;
 `;
 
-function MonthSelect() {
-  const [globalState, changeMonthOffset] = useContext(DateContext);
+function MonthSelect(props) {
+  const [dateContext, changeMonthOffset, setDay] = useContext(DateContext);
+  const focusedDay = dateContext.focusedDay;
+  const ordinalSuffix = <sup> {getOrdinalSuffix(focusedDay)}</sup>;
 
   function handlePrevious() {
+    if (props.dayView) {
+      return changeFocusedDay("subtract");
+    }
     changeMonthOffset("subtract");
   }
 
   function handleNext() {
+    if (props.dayView) {
+      return changeFocusedDay("add");
+    }
     changeMonthOffset("add");
   }
 
   function handleToday() {
     console.log("handle today");
     changeMonthOffset(0);
+  }
+
+  function changeFocusedDay(change) {
+    change === "add" ? setDay(focusedDay + 1) : setDay(focusedDay - 1);
   }
   return (
     <MonthSelectContainer>
@@ -63,7 +76,9 @@ function MonthSelect() {
       <MonthButton type="button" className="btn btn-light" onClick={handleNext}>
         &gt;
       </MonthButton>
-      <CurrentMonth>{getMonth(globalState.targetDate.$M)}</CurrentMonth>
+      <CurrentMonth>{getMonth(dateContext.targetDate.$M)} </CurrentMonth>
+      {props.dayView && <CurrentMonth>{focusedDay} </CurrentMonth>}
+      {props.dayView && <h4>{ordinalSuffix}</h4>}
     </MonthSelectContainer>
   );
 }

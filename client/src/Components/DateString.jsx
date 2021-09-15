@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import { DateContext } from "../Contexts/DateContext";
-import { getDay, getMonth } from "../Helpers/dateHelpers";
+import { getDay, getMonth, getOrdinalSuffix } from "../Helpers/dateHelpers";
 
 const DateStringWrapper = styled.div`
   display: flex;
@@ -52,20 +52,6 @@ function DateString(props) {
     year = responce.$y;
 
     return { 1: `${day} ${date}`, 2: ` ${month} ${year}` };
-  }
-
-  function getOrdinalSuffix(date) {
-    const suffixes = { 1: "st", 2: "nd", 3: "rd" };
-
-    if (date / 10 < 1) {
-      if (suffixes[date]) return suffixes[date];
-    } else {
-      const dateDigits = ("" + date).split("");
-      const last = dateDigits.pop();
-      if (dateDigits[dateDigits.length - 1] * 1 === 1) return "th";
-      if (suffixes[last]) return suffixes[last];
-    }
-    return "th";
   }
 
   return (

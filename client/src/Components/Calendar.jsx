@@ -15,11 +15,13 @@ const Container = styled.div`
 `;
 
 function Calendar({ dayView }) {
-  const [dateContext] = useContext(DateContext);
-
+  const [dateContext, , setDay] = useContext(DateContext);
+  const targetDate = dateContext.targetDate.$D;
   console.log("Calendar dayView: ", dayView);
 
-  useEffect(() => {}, [dateContext.targetDate]);
+  useEffect(() => {
+    setDay(targetDate);
+  }, [dateContext.targetDate]);
 
   return (
     <Container className="Calendar" id="calendar">

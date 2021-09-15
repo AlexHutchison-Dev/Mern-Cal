@@ -56,7 +56,6 @@ export function getDaysInMonth(targetDate) {
 }
 
 export function changeTargetDateMonth(monthOffset) {
-  
   console.log("changeTargetDateMonth");
 
   var targetDate = null;
@@ -66,11 +65,22 @@ export function changeTargetDateMonth(monthOffset) {
   }
 
   monthOffset < 0
-    ? (targetDate = dayjs().subtract(
-        Math.abs(monthOffset),
-        "month"
-      ))
+    ? (targetDate = dayjs().subtract(Math.abs(monthOffset), "month"))
     : (targetDate = dayjs().add(monthOffset, "month"));
 
-    return targetDate;
+  return targetDate;
+}
+
+export function getOrdinalSuffix(date) {
+  const suffixes = { 1: "st", 2: "nd", 3: "rd" };
+
+  if (date / 10 < 1) {
+    if (suffixes[date]) return suffixes[date];
+  } else {
+    const dateDigits = ("" + date).split("");
+    const last = dateDigits.pop();
+    if (dateDigits[dateDigits.length - 1] * 1 === 1) return "th";
+    if (suffixes[last]) return suffixes[last];
+  }
+  return "th";
 }
