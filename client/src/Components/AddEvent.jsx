@@ -16,7 +16,8 @@ function AddEvent(props) {
   const [, changeUserContext] = useContext(UserContext);
   const [, changeModalContext] = useContext(ModalContext);
 
-  function handleClick() {
+  function handleClick(event) {
+    event.stopPropagation();
     changeUserContext.eventStore({ ...props.eventDate }, () => {
       changeModalContext.modalType("addevent");
       changeModalContext.toggleVisibility();

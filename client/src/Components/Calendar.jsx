@@ -14,7 +14,7 @@ const Container = styled.div`
   align-items: flex-start;
 `;
 
-function Calendar({ dayView }) {
+function Calendar({ dayView, toggleDayView }) {
   const [dateContext, , setDay] = useContext(DateContext);
   const targetDate = dateContext.targetDate.$D;
   console.log("Calendar dayView: ", dayView);
@@ -25,7 +25,7 @@ function Calendar({ dayView }) {
 
   return (
     <Container className="Calendar" id="calendar">
-      {dayView ? <DayView /> : <MonthView />}
+      {dayView ? <DayView /> : <MonthView toggleDayView={toggleDayView} />}
       <ModalBase />
     </Container>
   );

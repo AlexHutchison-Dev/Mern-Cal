@@ -19,7 +19,7 @@ const CalendarContainer = styled.div`
   margin: 0.5vw;
 `;
 
-function CalendarData() {
+function CalendarData(props) {
   const [dateContext] = useContext(DateContext);
   const [userContext] = useContext(UserContext);
 
@@ -55,7 +55,11 @@ function CalendarData() {
     return (
       <CalendarContainer className="calendar-container">
         <Weekdays />
-        <Dates days={days} weeks={weeksToDisplay} />
+        <Dates
+          days={days}
+          weeks={weeksToDisplay}
+          toggleDayView={props.toggleDayView}
+        />
       </CalendarContainer>
     );
   }

@@ -2,8 +2,10 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import AddEvent from "./AddEvent";
 import Event from "./Event";
+import MoreEvents from "./MoreEvents";
 import { DateContext } from "../Contexts/DateContext";
 import { UserContext } from "../Contexts/UserContext";
+import { detectMobile } from "../Helpers/mobileHelpers";
 
 const Day = styled.div`
   display: flex;
@@ -69,7 +71,9 @@ function DateCard(props) {
     console.log(
       `setDay to: ${dateContext.focusedDay}, props.day: ${props.day}`
     );
+    props.toggleDayView();
   }
+
   if (userContext.user.events) {
     todaysEvents = userContext.user.events.filter(
       (event) =>
@@ -79,20 +83,6 @@ function DateCard(props) {
     );
   }
 
-  function detectMobile() {
-    if (
-      navigator.userAgent.match(/Android/i) ||
-      navigator.userAgent.match(/webOS/i) ||
-      navigator.userAgent.match(/iPhone/i) ||
-      navigator.userAgent.match(/iPad/i) ||
-      navigator.userAgent.match(/iPod/i) ||
-      navigator.userAgent.match(/BlackBerry/i) ||
-      navigator.userAgent.match(/Windows Phone/i)
-    ) {
-      return true;
-    }
-    return false;
-  }
   const dateInfo = (
     <Content>
       <DateBar>
@@ -108,9 +98,16 @@ function DateCard(props) {
             }
             if (index === 1) {
               const moreEvents = {
-                title: `+ ${todaysEvents.length - 1} more...`,
+                title: `+ ${todaysEvents.length - 1} more events...`,
               };
-              return <Event event={moreEvents} key={event._id} />;
+              return (
+                <MoreEvents
+                  event={moreEvents}
+                  key={event._id}
+                  toggleDayView={props.toggleDayView}
+                  day={props.day}
+                />
+              );
             } else return "";
           })}
       </EventContainer>

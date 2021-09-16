@@ -42,9 +42,8 @@ function Event(props) {
   const [, changeModalContext] = useContext(ModalContext);
   const [userContext, changeUserContext] = useContext(UserContext);
 
-  console.log(`Creating event: ${props.event.title}`);
   function handleEventClick(event) {
-    event.preventDefault();
+    event.stopPropagation();
     changeUserContext.eventStore({ ...props.event }, () => {
       changeModalContext.modalType("event");
       changeModalContext.toggleVisibility();

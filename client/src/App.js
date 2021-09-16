@@ -9,7 +9,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 
 import Calendar from "./Components/Calendar";
-import Nav from "./Components/Nav/index.js";
+import Nav from "./Components/Nav";
 import Home from "./Components/Home/index";
 import LogIn from "./Components/LogIn";
 import Register from "./Components/Register";
@@ -41,7 +41,7 @@ function App() {
                   <Register />
                 </Route>
                 <Route path="/cal">
-                  <Calendar dayView={dayView} />
+                  <Calendar dayView={dayView} toggleDayView={toggleDayView} />
                 </Route>
               </Switch>
             </AppContainer>

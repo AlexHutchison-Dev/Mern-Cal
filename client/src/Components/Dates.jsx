@@ -23,6 +23,7 @@ function Dates(props) {
             key={day ? day : Math.random()}
             weeks={props.weeks}
             null={day ? false : true}
+            toggleDayView={props.toggleDayView}
           />
         );
       })}
