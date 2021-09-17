@@ -50,7 +50,8 @@ function Event(props) {
     });
   }
 
-  function handleDeleteClick() {
+  function handleDeleteClick(event) {
+    event.stopPropagation();
     deleteEvent(userContext.user.id, props.event._id, (responce) => {
       if (responce.data.success) {
         changeUserContext.clearEventStore();
@@ -60,8 +61,8 @@ function Event(props) {
   }
 
   function manageEventName() {
-    if (props.event.title.length > 8) {
-      return props.event.title.slice(0, 8) + "...";
+    if (props.event.title.length > 15) {
+      return props.event.title.slice(0, 15) + "...";
     }
     return props.event.title;
   }
