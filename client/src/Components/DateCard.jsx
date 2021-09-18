@@ -46,6 +46,7 @@ function DateCard(props) {
   const [dateContext, , setDay] = useContext(DateContext);
   const [userContext] = useContext(UserContext);
   var todaysEvents = null;
+  const numberOfEventstToDisplay = mobile ? 1 : 2;
 
   useEffect(() => {
     if (mobile) {
@@ -93,12 +94,14 @@ function DateCard(props) {
       <EventContainer>
         {todaysEvents &&
           todaysEvents.map((event, index) => {
-            if (index < 1) {
+            if (index < numberOfEventstToDisplay) {
               return <Event event={event} key={event._id} />;
             }
-            if (index === 1) {
+            if (index === numberOfEventstToDisplay) {
               const moreEvents = {
-                title: `+ ${todaysEvents.length - 1} more events...`,
+                title: `+ ${
+                  todaysEvents.length - numberOfEventstToDisplay
+                } more events...`,
               };
               return (
                 <MoreEvents

@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-
+import calendarImage from "./images/background.png";
 import {
   Title,
   TitleImage,
@@ -9,7 +9,7 @@ import {
   TitleTexts,
   ContentRow,
   ButtonContainer,
-  SignUpButton
+  SignUpButton,
 } from "./TitleElements.js";
 
 function TitleElements() {
@@ -23,7 +23,7 @@ function TitleElements() {
 
   return (
     <section id="title">
-      <Title >
+      <Title>
         <ContentContainer>
           <ContentRow className="row">
             <div className="col-lg-6 ">
@@ -43,7 +43,7 @@ function TitleElements() {
 
             <div className="col-lg-6">
               <div>
-                <TitleImage src={require("./images/title-image.png")} />
+                <TitleImage src={calendarImage} />
               </div>
             </div>
           </ContentRow>
